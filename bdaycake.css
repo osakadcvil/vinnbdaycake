@@ -38,7 +38,7 @@ body {
     100% { transform: translate(-50%, -400px); opacity: 0; }
 }
 
-/* --- Kotak Kado (CSS-Only) --- */
+/* --- KOTAK KADO 3D (CSS-ONLY) --- */
 .gift-box {
     position: relative;
     width: 200px;
@@ -48,34 +48,42 @@ body {
     transform-style: preserve-3d;
     transition: transform 0.5s ease-in-out;
     margin-top: -50px; 
+    /* Efek 3D awal agar terlihat seperti balok */
+    transform: rotateX(10deg) rotateY(10deg); 
+    z-index: 10;
 }
 
+/* Bagian Bawah Kotak (Body) */
 .box-bottom {
     width: 100%;
     height: 100%;
-    background-color: #ff6347; /* Merah tomat */
+    background-color: #cc3333; /* Merah gelap untuk efek 3D */
     position: absolute;
     bottom: 0;
     border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3); /* Sedikit bayangan internal */
 }
 
+/* Tutup Kotak */
 .box-top {
-    width: 100%;
+    width: 105%; /* Lebih lebar dari body untuk efek tutup menonjol */
     height: 30px; 
-    background-color: #ff6347; /* Merah tomat */
+    background-color: #e63946; /* Merah cerah untuk tutup */
     position: absolute;
-    top: -25px;
+    top: -30px; /* Di atas body kotak */
+    left: -2.5%; 
     border-radius: 5px;
     transform-origin: bottom center;
     transition: transform 0.5s ease-in-out; 
     z-index: 3;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Bayangan luar */
 }
 
 /* Pita Vertikal dan Horizontal */
 .ribbon-v { 
     width: 25px; 
     height: 100%; 
-    background-color: #ffd700; /* Emas */
+    background-color: #ffd700; 
     position: absolute; 
     left: 50%; 
     transform: translateX(-50%); 
@@ -84,24 +92,23 @@ body {
 .ribbon-h { 
     width: 100%; 
     height: 25px; 
-    background-color: #ffd700; /* Emas */
+    background-color: #ffd700; 
     position: absolute; 
     top: 50%; 
     transform: translateY(-50%); 
     z-index: 2; 
 }
 
-/* --- PERBAIKAN PITA ATAS (BOW) --- */
+/* --- PERBAIKAN PITA ATAS (BOW) ELEGAN --- */
 .ribbon-bow {
     position: absolute;
-    width: 60px; /* Lebar total pita */
-    height: 40px; /* Tinggi total pita (untuk menampung loop) */
-    /* Posisikan di tengah-tengah tutup kotak */
-    top: -25px; /* Sesuaikan dengan 'top' dari .box-top */
+    width: 80px; /* Lebar total pita */
+    height: 40px; 
+    /* POSISI: Tepat di tengah TUTUP KOTAK */
+    top: -50px; 
     left: 50%;
-    transform: translateX(-50%) translateY(-20px); /* Geser ke atas agar terlihat di atas tutup */
+    transform: translateX(-50%); 
     z-index: 4;
-    overflow: visible; 
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -109,54 +116,63 @@ body {
 .ribbon-bow::before {
     content: '';
     position: absolute;
-    width: 30px;
+    width: 40px; /* Lebih besar */
     height: 40px; 
-    background-color: #ffd700; /* Emas */
-    border-radius: 40% 60% 50% 50% / 50% 50% 50% 50%; 
+    background-color: #ffd700; 
+    /* Bentuk loop dengan border-radius yang lebih kompleks */
+    border-radius: 60% 30% 50% 50% / 50% 50% 50% 50%; 
     left: 0;
     top: 0;
-    transform: rotate(25deg); 
+    transform: rotate(30deg); /* Rotasi */
     transform-origin: bottom right;
-    box-shadow: -2px 2px 5px rgba(0,0,0,0.1);
+    box-shadow: inset -3px 3px 5px rgba(0,0,0,0.15); /* Bayangan dalam */
 }
 
 /* Loop Kanan Pita */
 .ribbon-bow::after {
     content: '';
     position: absolute;
-    width: 30px;
+    width: 40px;
     height: 40px; 
-    background-color: #ffd700; /* Emas */
-    border-radius: 60% 40% 50% 50% / 50% 50% 50% 50%; 
+    background-color: #ffd700; 
+    border-radius: 30% 60% 50% 50% / 50% 50% 50% 50%; 
     right: 0;
     top: 0;
-    transform: rotate(-25deg); 
+    transform: rotate(-30deg); 
     transform-origin: bottom left;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    box-shadow: inset 3px 3px 5px rgba(0,0,0,0.15); 
 }
 
-/* --- Ekor pita (jika ingin ditambahkan, sebagai bagian dari .ribbon-bow) --- */
-.ribbon-bow::before {
-    /* ... kode loop kiri ... */
+/* Tambahan Simpul Tengah */
+.ribbon-bow .knot {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #ffaa00; /* Emas yang lebih gelap */
+    border-radius: 50%;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
-.ribbon-bow::after {
-    /* ... kode loop kanan ... */
-}
-/* Tambahkan bagian ekor pita */
-.ribbon-bow::before,
-.ribbon-bow::after {
-    /* ... kode loop ... */
-}
-
 
 .click-instruction {
     position: absolute; bottom: -40px; width: 100%; text-align: center; 
     color: #555; font-size: 0.9em; opacity: 1; transition: opacity 0.3s;
+    /* Penyesuaian posisi agar tidak terganggu oleh kotak 3D */
+    left: 50%; 
+    transform: translate(-50%, 0);
 }
 
 /* Animasi saat kotak terbuka */
+.gift-box.open {
+    /* Angkat kotak sedikit saat dibuka agar lebih dramatis */
+    transform: rotateX(10deg) rotateY(10deg) translateY(-20px);
+}
 .gift-box.open .box-top {
-    transform: rotateX(-90deg) translateY(-25px); 
+    /* Putar tutup ke belakang */
+    transform: rotateX(-90deg) translateY(-30px); 
 }
 .gift-box.open .ribbon-bow, 
 .gift-box.open .ribbon-h {
@@ -169,7 +185,6 @@ body {
 
 
 /* --- Desain Kue (CSS-Only) --- */
-
 .hidden {
     display: none !important; 
 }
@@ -196,6 +211,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* ... (CSS Kue dan Lilin tetap sama, tidak perlu diulang) ... */
 .cake-layer {
     width: 100%; height: 40px; position: relative; border-radius: 5px; margin-bottom: 5px;
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
