@@ -1,101 +1,72 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // --- Elemen DOM ---
-    const musicBox = document.getElementById('musicBox');
-    const goldenKey = document.getElementById('goldenKey');
-    const rotatingFigure = document.getElementById('rotatingFigure');
-    const closeBoxButton = document.getElementById('closeBox');
+// Data warna konfeti yang dibuat dengan CSS-Only
+const confettiColors = ['#ff4e50', '#fc913a', '#f9d62e', '#a8e063', '#4bc0c8', '#8e2de2']; 
+let candlesLit = 5;
 
-    // --- Sound Files (Harap Ganti Path Ini) ---
-    // Pastikan Anda telah mengunggah file-file ini
-    const SOUND_KEY_WIND = 'key_wind.mp3'; // Suara kunci diputar (Winding/Click)
-    const MUSIC_MELODY = 'music_box_melody.mp3'; // Melodi Kotak Musik
+// Fungsi yang dipanggil saat api lilin diklik
+function blowOut(flameElement) {
+    if (flameElement.classList.contains('out')) {
+        return; // Lilin sudah padam, tidak melakukan apa-apa
+    }
+
+    flameElement.classList.add('out');
+    flameElement.parentNode.setAttribute('data-lit', 'false');
+    candlesLit--;
+
+    // Periksa jika semua lilin sudah padam
+    if (candlesLit === 0) {
+        triggerCelebration();
+    }
+}
+
+// Fungsi untuk memulai animasi Konfeti dan Pesan Ucapan
+function triggerCelebration() {
+    const messageContainer = document.querySelector('.message-container');
+    const confettiContainer = document.getElementById('confetti-container');
+
+    // 1. Tampilkan dan Animasi Pesan Ucapan
+    messageContainer.style.opacity = 1;
+    messageContainer.classList.add('float-up');
+
+    // 2. Mulai Animasi Konfeti
+    confettiContainer.style.display = 'block';
+    createConfetti(100); // Buat 100 buah konfeti
+}
+
+// Fungsi untuk membuat Konfeti (visual murni CSS, posisi/animasi dengan JS)
+function createConfetti(count) {
+    const container = document.getElementById('confetti-container');
     
-    let isBoxOpen = false;
-    let audioMelody;
-
-    // --- Fungsi Bantuan Audio ---
-    function playSound(filePath, volume = 0.8) {
-        if (filePath) {
-            const audio = new Audio(filePath);
-            audio.volume = volume;
-            audio.play().catch(e => console.warn(Audio playback blocked: ${filePath}, e));
-        }
-    }
-
-    function startMusic() {
-        if (!audioMelody) {
-            audioMelody = new Audio(MUSIC_MELODY);
-            audioMelody.loop = true;
-            audioMelody.volume = 0.6;
-        }
-        audioMelody.play().catch(e => console.error("Gagal memutar melodi:", e));
-    }
-
-    function stopMusic() {
-        if (audioMelody) {
-            audioMelody.pause();
-            audioMelody.currentTime = 0;
-        }
-    }
-
-    // ==========================================================
-    // 1. INTERAKSI: KLIK KUNCI EMAS
-    // ==========================================================
-    goldenKey.addEventListener('click', () => {
-        if (isBoxOpen) return; // Mencegah klik ganda
-
-        isBoxOpen = true;
+    for (let i = 0; i < count; i++) {
+        const confetto = document.createElement('div');
+        confetto.classList.add('confetto');
         
-        // 1. Mainkan Suara Kunci Diputar
-        playSound(SOUND_KEY_WIND, 0.9);
-
-        // 2. Animasikan Tutup Kotak Terbuka
-        musicBox.classList.add('open');
+        // Pilih warna acak dari daftar CSS-Only
+        const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        confetto.style.backgroundColor = color;
         
-        // 3. Setelah Tutup Terbuka (sekitar 1.5 detik), mulai kejutan interior
-        setTimeout(() => {
-            // Patung mulai berputar
-            rotatingFigure.classList.add('spin'); 
-            
-            // Musik dimulai
-            startMusic(); 
-            
-            // Opsional: Tembak Confetti Halus
-            playSubtleConfetti();
-
-        }, 1500); // Sesuaikan dengan durasi transisi CSS tutup kotak
-    });
-
-
-    // ==========================================================
-    // 2. INTERAKSI: TUTUP KOTAK MUSIK
-    // ==========================================================
-    closeBoxButton.addEventListener('click', () => {
-        if (!isBoxOpen) return;
-
-        isBoxOpen = false;
+        // Atur posisi awal acak di atas layar
+        confetto.style.left = Math.random() * 100 + 'vw';
+        confetto.style.top = -10 + 'px';
         
-        // Hentikan Patung dan Musik
-        rotatingFigure.classList.remove('spin');
-        stopMusic();
+        // Atur animasi jatuh acak
+        const duration = Math.random() * 3 + 2; // Durasi 2s hingga 5s
+        const delay = Math.random() * 0.5; // Tunda 0s hingga 0.5s
         
-        // Tutup Kotak
-        musicBox.classList.remove('open');
-    });
-
-    // --- Fungsi Confetti Halus (Seperti Stardust) ---
-    function playSubtleConfetti() {
-        if (typeof confetti !== 'undefined') {
-            confetti({
-                particleCount: 80,
-                spread: 90,
-                ticks: 100,
-                gravity: 0.3,
-                scalar: 0.7,
-                origin: { x: 0.5, y: 0.5 }, // Dari tengah kotak
-                // Warna Emas dan Perak
-                colors: ['#DAA520', '#C0C0C0', '#F5F5DC'] 
-            });
-        }
+        confetto.style.animation = `fall ${duration}s ${delay}s forwards`;
+        confetto.style.animationTimingFunction = `cubic-bezier(${Math.random()}, ${Math.random()}, ${Math.random()}, ${Math.random()})`;
+        
+        container.appendChild(confetto);
     }
-});
+    
+    // Tambahkan @keyframes fall ke CSS (karena tidak bisa langsung di JS, kita gunakan cara ini)
+    const styleSheet = document.createElement("style");
+    styleSheet.innerHTML = `
+        @keyframes fall {
+            to {
+                transform: translate3d(0, 100vh, 0) rotate(720deg);
+                opacity: 1;
+            }
+        }
+    `;
+    document.head.appendChild(styleSheet);
+}
