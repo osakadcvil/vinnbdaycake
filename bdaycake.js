@@ -77,7 +77,7 @@ function openGift() {
 
     // 1. Kado terbuka
     giftBox.classList.add('open');
-    congratsMessage.innerText = 'Lihat Kuemu! Sekarang Klik Lilinnya🕯️';
+    congratsMessage.innerText = 'Ini Kuemu🎂 Sekarang Klik Lilinnya!🕯️';
 
     setTimeout(() => {
         // 2. Kado menghilang
@@ -112,8 +112,8 @@ function blowOut(candleElement) {
 let confettiTriggered = false; 
 function checkAllBlownOut() {
     if (blownOutCount === totalCandles) {
-        // Pesan ucapan ini akan menggunakan Font Bangers yang baru
-        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
+        // Pesan ucapan ini akan menggunakan Font Poppins yang bersih
+        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN!🥳🎉';
         
         // PICU SEMBURAN KONFETI & BALON INSTAN
         if (!confettiTriggered) {
