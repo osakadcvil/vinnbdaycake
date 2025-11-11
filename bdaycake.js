@@ -23,7 +23,8 @@ function generateConfetti() {
         ...Array(balloonCount).fill('balloon')
     ];
     
-    // PERBAIKAN: Tentukan titik asal semburan di layar (30% dari atas) untuk visibilitas instan.
+    // PERBAIKAN (UNTUK KECEPATAN): Tentukan titik asal semburan di layar (30% dari atas) 
+    // agar semburan terlihat instan saat terjadi.
     const originY = window.innerHeight * 0.3; 
     const originX = window.innerWidth / 2;
 
@@ -48,7 +49,7 @@ function generateConfetti() {
         item.style.left = `${originX + (Math.random() * 100 - 50)}px`;
         item.style.top = `${originY}px`; 
         
-        // PERBAIKAN: Kurangi durasi total untuk efek yang lebih cepat
+        // PERBAIKAN (UNTUK KECEPATAN): Kurangi durasi total animasi jatuh
         const fallDuration = (Math.random() * 3) + 4; // Durasi total jatuh (4s hingga 7s)
         const wobbleDuration = (Math.random() * 0.5) + 2; 
 
@@ -76,7 +77,7 @@ function openGift() {
 
     // 1. Kado terbuka
     giftBox.classList.add('open');
-    congratsMessage.innerText = 'Lihat Kuemu!🎂 Sekarang Klik Lilinnya!🕯️';
+    congratsMessage.innerText = 'Lihat Kuemu! Sekarang Klik Lilinnya🕯️';
 
     setTimeout(() => {
         // 2. Kado menghilang
@@ -111,7 +112,8 @@ function blowOut(candleElement) {
 let confettiTriggered = false; 
 function checkAllBlownOut() {
     if (blownOutCount === totalCandles) {
-        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINTUTT🎂🥳🎉';
+        // Pesan ucapan ini akan menggunakan Font Bangers yang baru
+        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
         
         // PICU SEMBURAN KONFETI & BALON INSTAN
         if (!confettiTriggered) {
