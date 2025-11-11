@@ -7,43 +7,64 @@ const congratsMessage = document.getElementById('congrats-message');
 const giftBox = document.getElementById('giftBox');
 const cakeContainer = document.getElementById('cakeContainer');
 
-// Palet warna untuk konfeti
+// Palet warna untuk konfeti dan balon
 const confettiColors = [
     '#ff6f69', '#ffcc5c', '#88d8b0', '#6b5b95', '#e0b7ff', '#f7a399'
 ];
 
-// FUNGSI 1: Menghasilkan Konfeti (Versi Normal & INSTAN)
+// FUNGSI 1: Menghasilkan Konfeti dan Balon (Efek Semburan/Burst)
 function generateConfetti() {
-    const confettiCount = 100; // Jumlah konfeti yang dianggap Normal
+    const confettiCount = 100;
+    const balloonCount = 20; // Rasio Balon:Konfeti = 1:5
+
+    // Buat array yang berisi jenis item yang akan dibuat
+    const itemsToGenerate = [
+        ...Array(confettiCount).fill('confetti'),
+        ...Array(balloonCount).fill('balloon')
+    ];
     
-    for (let i = 0; i < confettiCount; i++) {
-        const confetto = document.createElement('div');
-        confetto.classList.add('confetto');
+    // Tentukan titik asal semburan (di tengah atas layar)
+    const originX = window.innerWidth / 2;
+    const originY = 0; 
+
+    itemsToGenerate.forEach(type => {
+        const item = document.createElement('div');
+        // Tentukan class: 'confetto' atau 'balloon'
+        item.classList.add(type === 'confetti' ? 'confetto' : 'balloon');
         
         const randomColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-        confetto.style.backgroundColor = randomColor;
+        item.style.backgroundColor = randomColor;
+
+        // Tentukan posisi X akhir secara acak (spread lebar untuk efek semburan)
+        const xEnd = (Math.random() * window.innerWidth * 1.5) - (window.innerWidth * 0.75); // Drift horizontal dari -75vw hingga +75vw
         
-        confetto.style.left = Math.random() * 100 + 'vw'; 
+        // Tentukan rotasi akhir secara acak
+        const rotEnd = Math.random() * 720; // 720 derajat putaran
         
-        // Durasi jatuh acak (4s hingga 6s)
-        const fallDuration = (Math.random() * 2) + 4; 
+        // Atur custom properties CSS untuk animasi 'confetti-burst'
+        item.style.setProperty('--x-end', `${xEnd}px`);
+        item.style.setProperty('--rot-end', `${rotEnd}deg`);
+
+        // Posisi awal (Di tengah atas, sedikit di luar viewport)
+        item.style.left = `${originX + (Math.random() * 100 - 50)}px`;
+        item.style.top = `${originY - 50}px`; 
+        
+        const fallDuration = (Math.random() * 3) + 6; // Durasi total jatuh (6s hingga 9s)
         const wobbleDuration = (Math.random() * 0.5) + 2; 
-        
-        // Konfeti harus jatuh INSTAN, jadi tidak ada delay acak di sini.
-        
-        // Menerapkan kedua animasi (Jatuh dan Goyang) ke elemen
-        confetto.style.animation = `
+
+        // Terapkan animasi semburan baru
+        item.style.animation = `
             confetti-wobble ${wobbleDuration}s ease-in-out infinite alternate, 
-            confetti-fall-normal ${fallDuration}s linear forwards
+            confetti-burst ${fallDuration}s linear forwards
         `;
         
-        confettiContainer.appendChild(confetto);
+        confettiContainer.appendChild(item);
 
-        // Hapus elemen setelah animasi jatuh selesai
+        // Hapus elemen setelah animasi selesai
         setTimeout(() => {
-            confetto.remove();
-        }, (fallDuration * 1000)); // Hanya berdasarkan durasi jatuh
-    }
+            item.remove();
+        }, (fallDuration * 1000) + 100); 
+    });
 }
 
 
@@ -55,7 +76,6 @@ function openGift() {
 
     // 1. Kado terbuka
     giftBox.classList.add('open');
-    // Revisi Teks: Mengganti "Tiup" menjadi "Klik"
     congratsMessage.innerText = 'Lihat Kuemu! Sekarang Klik Lilinnya 🖱️';
 
     setTimeout(() => {
@@ -93,7 +113,7 @@ function checkAllBlownOut() {
     if (blownOutCount === totalCandles) {
         congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
         
-        // PICU KONFETI INSTAN (Tanpa delay)
+        // PICU SEMBURAN KONFETI & BALON INSTAN
         if (!confettiTriggered) {
             generateConfetti(); 
             confettiTriggered = true;
