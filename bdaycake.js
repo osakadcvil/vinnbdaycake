@@ -1,10 +1,12 @@
-// --- KODE JAVASCRIPT LENGKAP bdaycake.js ---
+// --- bdaycake.js (KODE LENGKAP) ---
 
 const totalCandles = 5;
 let blownOutCount = 0;
 const confettiContainer = document.getElementById('confetti-container');
+// Ambil elemen candle-set di awal
+const candleSet = document.querySelector('.candle-set'); 
 
-// Palet warna yang lebih cerah dan beragam
+// Palet warna cerah dan beragam untuk konfeti
 const confettiColors = [
     '#ff6f69', // Coral
     '#ffcc5c', // Yellow
@@ -14,10 +16,11 @@ const confettiColors = [
     '#f7a399'  // Light Red
 ];
 
-// --- FUNGSI UTAMA UNTUK MENGHASILKAN KONFETI ---
+// FUNGSI UTAMA UNTUK MENGHASILKAN KONFETI (DITINGKATKAN)
 function generateConfetti() {
-    const confettiCount = 200; // Ditingkatkan dari jumlah sebelumnya
-    const fallAnimations = ['confetti-fall-normal', 'confetti-fall-slow', 'confetti-fall-fast'];
+    const confettiCount = 200; // Jumlah konfeti per ledakan DITINGKATKAN
+    // Variasi animasi jatuh (memerlukan CSS yang diperbarui)
+    const fallAnimations = ['confetti-fall-normal', 'confetti-fall-slow', 'confetti-fall-fast']; 
     const shapes = ['', 'small', 'large', 'circle'];
 
     for (let i = 0; i < confettiCount; i++) {
@@ -34,7 +37,8 @@ function generateConfetti() {
         }
 
         confetto.style.backgroundColor = randomColor;
-        confetto.style.left = Math.random() * 100 + 'vw';
+        // Posisi awal acak di atas layar
+        confetto.style.left = Math.random() * 100 + 'vw'; 
         confetto.style.animationName = randomAnimation;
         
         // Durasi yang lebih panjang dan variatif (4s - 10s)
@@ -57,20 +61,19 @@ function generateConfetti() {
 function openGift() {
     const giftBox = document.getElementById('giftBox');
     const cakeContainer = document.getElementById('cakeContainer');
-    const messageContainer = document.getElementById('messageContainer');
-
+    const congratsMessage = document.getElementById('congrats-message');
+    
     if (giftBox.classList.contains('open')) {
-        return; // Mencegah klik berulang
+        return; 
     }
 
     giftBox.classList.add('open');
-    messageContainer.innerHTML = '<h1>Lihat Kuemu! Sekarang Tiup Lilinnya 🌬️</h1>';
+    congratsMessage.innerText = 'Lihat Kuemu! Sekarang Tiup Lilinnya 🌬️';
 
-    // Tunda untuk efek animasi kotak terbuka
     setTimeout(() => {
         cakeContainer.classList.remove('hidden');
         
-        // PICU KONFETI BERTURUT-TURUT SAAT KOTAK DIBUKA
+        // PICU KONFETI BERTURUT-TURUT (3 kali)
         generateConfetti();
         setTimeout(generateConfetti, 100);
         setTimeout(generateConfetti, 200);
@@ -92,22 +95,28 @@ function blowOut(candleElement) {
 }
 
 function checkAllBlownOut() {
+    const congratsMessage = document.getElementById('congrats-message');
+
     if (blownOutCount === totalCandles) {
-        document.getElementById('congrats-message').innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
+        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
         
-        // PICU KONFETI BERKALI-KALI SAAT SEMUA LILIN PADAM
+        // PERBAIKAN: Hanya sembunyikan wadah lilin, BUKAN seluruh kue
+        if (candleSet) {
+            candleSet.style.opacity = '0'; 
+            candleSet.style.transition = 'opacity 1s ease-out';
+        }
+
+        // PICU KONFETI BERKALI-KALI (5 kali)
         let burstCount = 0;
         const burstInterval = setInterval(() => {
             generateConfetti();
             burstCount++;
-            if (burstCount >= 5) { // 5 kali tembakan konfeti
+            if (burstCount >= 5) {
                 clearInterval(burstInterval);
             }
-        }, 300); // Setiap 300ms
+        }, 300); 
 
-        // Opsional: Sembunyikan lilin yang sudah padam (tergantung pada CSS Anda)
-        document.querySelector('.candle-set').style.opacity = '0';
     } else {
-        document.getElementById('congrats-message').innerText = `Masih ada ${totalCandles - blownOutCount} lilin lagi!`;
+        congratsMessage.innerText = `Masih ada ${totalCandles - blownOutCount} lilin lagi!`;
     }
 }
