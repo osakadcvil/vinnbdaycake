@@ -39,7 +39,8 @@ body {
     font-size: 2.2em; /* Sedikit lebih kecil agar lebih elegan */
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: #4a4a4a; /* Warna gelap yang elegan */
+    /* DIPERBARUI: Warna Soft Pink */
+    color: #ffb6c1; 
     /* MENGHAPUS SEMUA SHADOW DAN STROKE */
     -webkit-text-stroke: none; 
     text-shadow: none; 
