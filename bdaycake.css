@@ -1,3 +1,4 @@
+/* --- Global & Responsive Base --- */
 body {
     display: flex;
     flex-direction: column;
@@ -25,7 +26,7 @@ body {
 /* --- Tampilan Pesan Ucapan --- */
 .message-container {
     position: absolute;
-    top: 20%; /* Pindahkan ke atas sedikit agar tidak menimpa kado/kue */
+    top: 20%; 
     left: 50%;
     transform: translateX(-50%); 
     text-align: center;
@@ -49,7 +50,7 @@ body {
     perspective: 1000px; 
     transform-style: preserve-3d;
     transition: transform 0.5s ease-in-out;
-    margin-top: 50px; /* Jarak dari pesan */
+    margin-top: 50px; 
     z-index: 10;
 }
 .box-bottom { width: 100%; height: 100%; background-color: #cc3333; position: absolute; bottom: 0; border-radius: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.3); }
@@ -65,24 +66,20 @@ body {
 .gift-box.open .box-top { transform: rotateX(-90deg) translateY(-35px); }
 .gift-box.open .ribbon-bow, .gift-box.open .ribbon-h, .gift-box.open .click-instruction { opacity: 0; transition: opacity 0.3s; }
 
-/* --- Desain Kue (DIJAMIN MUNCUL) --- */
+/* --- Desain Kue --- */
 .cake-container {
     position: absolute; 
     width: 250px; 
-    /* Posisikan persis di tengah layar */
     top: 50%; 
     left: 50%;
-    /* Atur transform agar transisi muncul berjalan */
     transform: translate(-50%, 50px); 
     opacity: 0; 
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     z-index: 1; 
 }
-
-/* Kelas untuk memicu tampilan kue dari JS */
 .cake-container.visible { 
     opacity: 1; 
-    transform: translate(-50%, 0); /* Posisi akhir: tengah-tengah */
+    transform: translate(-50%, 0); 
 }
 
 /* Elemen Kue & Lilin */
@@ -91,6 +88,7 @@ body {
 .layer-bottom { background-color: #8b4513; }
 .layer-middle { background-color: #f0e68c; }
 .layer-top { background-color: #ffc0cb; height: 25px; border-radius: 5px 5px 0 0;} 
+/* Penting: Transisi opacity untuk lilin saat ditiup */
 .candle-set { 
     transition: opacity 1s ease-out; 
     display: flex; 
@@ -108,7 +106,7 @@ body {
 @keyframes flicker { from { transform: scale(1, 1); } to { transform: scale(1.05, 0.95); } }
 
 
-/* --- KONFETI MERIAH (Ditingkatkan) --- */
+/* --- KONFETI NORMAL (Disesuaikan) --- */
 #confetti-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none; z-index: 1000; overflow: hidden;
@@ -116,13 +114,17 @@ body {
 .confetto {
     position: absolute; width: 8px; height: 15px; background-color: transparent;
     opacity: 0.9; will-change: transform, opacity;
-    animation: confetti-wobble 2s ease-in-out infinite alternate;
+    /* Hanya menggunakan satu tipe jatuh yang standar */
+    animation: confetti-fall-normal 5s linear forwards, confetti-wobble 2s ease-in-out infinite alternate;
 }
-@keyframes confetti-fall-normal { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; } }
-@keyframes confetti-fall-slow { 0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg) translateX(50px); opacity: 0.3; } }
-@keyframes confetti-fall-fast { 0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(180deg) translateX(-30px); opacity: 0.6; } }
-@keyframes confetti-wobble { 0%, 100% { transform: translateX(0) scaleX(1); } 50% { transform: translateX(10px) scaleX(0.5); } }
-.confetto.small { width: 5px; height: 10px; border-radius: 2px; }
-.confetto.large { width: 10px; height: 20px; border-radius: 5px; }
-.confetto.circle { border-radius: 50%; width: 10px; height: 10px; }
 
+/* Keyframe Sederhana */
+@keyframes confetti-fall-normal { 
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; } 
+}
+@keyframes confetti-wobble { 
+    0%, 100% { transform: translateX(0) scaleX(1); } 
+    50% { transform: translateX(5px) scaleX(0.7); } /* Goyangan lebih kecil */
+}
+/* Menghapus .small, .large, .circle untuk kesederhanaan */
