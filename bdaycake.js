@@ -1,114 +1,113 @@
-// Data warna konfeti
-const confettiColors = ['#ff4e50', '#fc913a', '#f9d62e', '#a8e063', '#4bc0c8', '#8e2de2']; 
-let candlesLit = 5; 
-let giftBoxOpened = false; 
+// --- KODE JAVASCRIPT LENGKAP bdaycake.js ---
 
-// Dapatkan referensi elemen DOM
-const giftBox = document.getElementById('giftBox');
-const cakeContainer = document.getElementById('cakeContainer');
-const messageContainer = document.getElementById('messageContainer'); 
-const congratsMessage = document.getElementById('congrats-message'); 
+const totalCandles = 5;
+let blownOutCount = 0;
 const confettiContainer = document.getElementById('confetti-container');
 
-// FUNGSI UTAMA UNTUK MEMBUKA KOTAK
-function openGift() {
-    if (giftBoxOpened) return; 
+// Palet warna yang lebih cerah dan beragam
+const confettiColors = [
+    '#ff6f69', // Coral
+    '#ffcc5c', // Yellow
+    '#88d8b0', // Mint Green
+    '#6b5b95', // Purple
+    '#e0b7ff', // Light Purple
+    '#f7a399'  // Light Red
+];
 
-    giftBox.classList.add('open'); 
-    giftBoxOpened = true;
+// --- FUNGSI UTAMA UNTUK MENGHASILKAN KONFETI ---
+function generateConfetti() {
+    const confettiCount = 200; // Ditingkatkan dari jumlah sebelumnya
+    const fallAnimations = ['confetti-fall-normal', 'confetti-fall-slow', 'confetti-fall-fast'];
+    const shapes = ['', 'small', 'large', 'circle'];
 
-    const clickInstruction = document.querySelector('.click-instruction');
-    if (clickInstruction) {
-        clickInstruction.style.opacity = 0; 
-    }
-
-    setTimeout(() => {
-        giftBox.style.display = 'none'; 
-        
-        cakeContainer.classList.remove('hidden'); 
-        
-        setTimeout(() => {
-            cakeContainer.classList.add('visible'); 
-
-            // Pesan instruksi setelah kue muncul
-            congratsMessage.textContent = `Klik kelima lilinnya! Sisa: ${candlesLit} 🕯️`;
-            messageContainer.style.opacity = 1;
-            messageContainer.style.pointerEvents = 'auto'; 
-        }, 50); 
-        
-    }, 500); 
-}
-
-
-// FUNGSI KLIK LILIN
-function blowOut(candleElement) {
-    if (candleElement.getAttribute('data-lit') === 'false' || !giftBoxOpened) {
-        if (!giftBoxOpened) {
-            congratsMessage.textContent = "Buka kotak kadonya dulu ya! 🎁";
-            messageContainer.style.opacity = 1;
-            messageContainer.classList.remove('float-up');
-        }
-        return;
-    }
-
-    const flameElement = candleElement.querySelector('.flame');
-
-    flameElement.classList.add('out');
-    candleElement.setAttribute('data-lit', 'false'); 
-    candlesLit--;
-
-    congratsMessage.textContent = `Sisa lilin: ${candlesLit} 🕯️`;
-    
-    if (candlesLit === 0) {
-        triggerCelebration();
-    }
-}
-
-// FUNGSI UNTUK MEMULAI PERAYAAN
-function triggerCelebration() {
-    
-    setTimeout(() => {
-        // Pesan Akhir (sesuai konten HTML)
-        congratsMessage.textContent = "CIEEE ULTAH NIH🎂🥳🎉";
-
-        // Animasi pesan ke atas
-        messageContainer.classList.remove('float-up'); 
-        messageContainer.classList.add('float-up');
-        messageContainer.style.opacity = 1;
-        messageContainer.style.pointerEvents = 'none'; 
-
-        // Mulai Konfeti
-        confettiContainer.style.display = 'block';
-        createConfetti(100);
-
-        // Hentikan konfeti setelah 5 detik
-        setTimeout(() => {
-            confettiContainer.style.display = 'none';
-        }, 5000);
-        
-    }, 500); 
-}
-
-// FUNGSI UNTUK MEMBUAT KONFETI
-function createConfetti(count) {
-    confettiContainer.innerHTML = ''; 
-
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < confettiCount; i++) {
         const confetto = document.createElement('div');
         confetto.classList.add('confetto');
         
-        const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-        confetto.style.backgroundColor = color;
+        // Pilih warna, animasi, dan bentuk secara acak
+        const randomColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        const randomAnimation = fallAnimations[Math.floor(Math.random() * fallAnimations.length)];
+        const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
         
+        if (randomShape) {
+            confetto.classList.add(randomShape);
+        }
+
+        confetto.style.backgroundColor = randomColor;
         confetto.style.left = Math.random() * 100 + 'vw';
-        confetto.style.top = Math.random() * -50 + 'px'; 
+        confetto.style.animationName = randomAnimation;
         
-        const duration = Math.random() * 3 + 2; 
-        const delay = Math.random() * 0.5; 
+        // Durasi yang lebih panjang dan variatif (4s - 10s)
+        const duration = (Math.random() * 6) + 4; 
+        confetto.style.animationDuration = duration + 's';
         
-        confetto.style.animation = `fall ${duration}s linear ${delay}s forwards`;
-        
+        // Penundaan agar konfeti ditembakkan berurutan
+        confetto.style.animationDelay = (Math.random() * 0.5) + 's'; 
+
         confettiContainer.appendChild(confetto);
+
+        // Hapus konfeti setelah animasinya selesai
+        confetto.addEventListener('animationend', () => {
+            confetto.remove();
+        });
     }
 }
 
+
+function openGift() {
+    const giftBox = document.getElementById('giftBox');
+    const cakeContainer = document.getElementById('cakeContainer');
+    const messageContainer = document.getElementById('messageContainer');
+
+    if (giftBox.classList.contains('open')) {
+        return; // Mencegah klik berulang
+    }
+
+    giftBox.classList.add('open');
+    messageContainer.innerHTML = '<h1>Lihat Kuemu! Sekarang Tiup Lilinnya 🌬️</h1>';
+
+    // Tunda untuk efek animasi kotak terbuka
+    setTimeout(() => {
+        cakeContainer.classList.remove('hidden');
+        
+        // PICU KONFETI BERTURUT-TURUT SAAT KOTAK DIBUKA
+        generateConfetti();
+        setTimeout(generateConfetti, 100);
+        setTimeout(generateConfetti, 200);
+
+    }, 1000); 
+}
+
+function blowOut(candleElement) {
+    if (candleElement.dataset.lit === 'true') {
+        candleElement.dataset.lit = 'false';
+        const flame = candleElement.querySelector('.flame');
+        if (flame) {
+            flame.style.opacity = '0';
+        }
+        
+        blownOutCount++;
+        checkAllBlownOut();
+    }
+}
+
+function checkAllBlownOut() {
+    if (blownOutCount === totalCandles) {
+        document.getElementById('congrats-message').innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
+        
+        // PICU KONFETI BERKALI-KALI SAAT SEMUA LILIN PADAM
+        let burstCount = 0;
+        const burstInterval = setInterval(() => {
+            generateConfetti();
+            burstCount++;
+            if (burstCount >= 5) { // 5 kali tembakan konfeti
+                clearInterval(burstInterval);
+            }
+        }, 300); // Setiap 300ms
+
+        // Opsional: Sembunyikan lilin yang sudah padam (tergantung pada CSS Anda)
+        document.querySelector('.candle-set').style.opacity = '0';
+    } else {
+        document.getElementById('congrats-message').innerText = `Masih ada ${totalCandles - blownOutCount} lilin lagi!`;
+    }
+}
