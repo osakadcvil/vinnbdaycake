@@ -34,7 +34,7 @@ body {
 }
 
 #congrats-message {
-    /* Mengecilkan ukuran font menggunakan em */
+    /* Ukuran font diperkecil */
     font-size: 2.2em; 
     color: #ff69b4;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.1); 
@@ -50,8 +50,8 @@ body {
 /* --- KOTAK KADO (Diperbesar) --- */
 .gift-box {
     position: relative;
-    width: 250px; /* Diperbesar */
-    height: 180px; /* Diperbesar */
+    width: 250px; 
+    height: 180px; 
     cursor: pointer;
     perspective: 1000px; 
     transform-style: preserve-3d;
@@ -86,7 +86,7 @@ body {
 
 .cake-container {
     position: absolute; 
-    width: 250px; 
+    width: 250px; /* Lebar kue diperbesar */
     top: 50%; 
     left: 50%;
     transform: translate(-50%, 50px); 
@@ -107,7 +107,7 @@ body {
 .layer-middle { background-color: #f0e68c; }
 .layer-top { background-color: #ffc0cb; height: 25px; border-radius: 5px 5px 0 0;} 
 
-/* Lilin (Proporsional) */
+/* Lilin (Proporsional dengan kue baru) */
 .candle-set { display: flex; justify-content: space-around; width: 180px; position: absolute; top: -25px; left: 35px; z-index: 2; } 
 .candle { width: 10px; height: 40px; background-color: #ffffff; border: 1px solid #000000; border-radius: 2px; position: relative; } 
 .wick { width: 2px; height: 7px; background-color: #222; position: absolute; top: -7px; left: 4px; }
