@@ -1,5 +1,3 @@
-// --- bdaycake.js (KODE LENGKAP) ---
-
 const totalCandles = 5;
 let blownOutCount = 0;
 const confettiContainer = document.getElementById('confetti-container');
@@ -113,4 +111,5 @@ function checkAllBlownOut() {
         congratsMessage.innerText = `Masih ada ${totalCandles - blownOutCount} lilin lagi!`;
     }
 }
+
 
