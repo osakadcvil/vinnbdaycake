@@ -1,124 +1,100 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-    const starCandles = document.querySelectorAll('.star-candle');
-    const cakeContainer = document.getElementById('constellationCake');
-    const constellationMessage = document.getElementById('constellationMessage');
+    // --- Elemen DOM ---
+    const musicBox = document.getElementById('musicBox');
+    const goldenKey = document.getElementById('goldenKey');
+    const rotatingFigure = document.getElementById('rotatingFigure');
+    const closeBoxButton = document.getElementById('closeBox');
+
+    // --- Sound Files (Harap Ganti Path Ini) ---
+    // Pastikan Anda telah mengunggah file-file ini
+    const SOUND_KEY_WIND = 'key_wind.mp3'; // Suara kunci diputar (Winding/Click)
+    const MUSIC_MELODY = 'music_box_melody.mp3'; // Melodi Kotak Musik
     
-    // Urutan klik yang benar (sesuai data-order di HTML)
-    // Urutan ini membentuk rasi bintang Sagitarius
-    const correctSequence = ['1', '2', '3', '4', '5', '6', '7'];
-    
-    let currentSequence = [];
-    let lastClickedStar = null;
-    let clickCount = 0;
+    let isBoxOpen = false;
+    let audioMelody;
 
-    // Mendapatkan posisi absolut elemen (relatif terhadap wadah kue)
-    function getStarPosition(starElement) {
-        const rect = starElement.getBoundingClientRect();
-        const containerRect = cakeContainer.getBoundingClientRect();
-        return {
-            x: rect.left + (rect.width / 2) - containerRect.left,
-            y: rect.top + (rect.height / 2) - containerRect.top
-        };
-    }
-
-    // Fungsi untuk menghitung jarak dan sudut, lalu menggambar garis
-    function drawConstellationLine(startStar, endStar) {
-        const pos1 = getStarPosition(startStar);
-        const pos2 = getStarPosition(endStar);
-
-        // 1. Hitung Jarak (Panjang Garis) menggunakan Teorema Pythagoras
-        const distance = Math.sqrt(
-            Math.pow(pos2.x - pos1.x, 2) + Math.pow(pos2.y - pos1.y, 2)
-        );
-
-        // 2. Hitung Sudut Kemiringan (Arc Tangent)
-        const angle = Math.atan2(pos2.y - pos1.y, pos2.x - pos1.x); // Hasil dalam radian
-
-        // 3. Buat dan Gaya Elemen Garis
-        const line = document.createElement('div');
-        line.classList.add('constellation-line');
-        line.style.width = distance + 'px';
-        line.style.top = pos1.y + 'px';
-        line.style.left = pos1.x + 'px';
-        line.style.transform = `rotate(${angle}rad)`; // Terapkan rotasi
-        
-        cakeContainer.appendChild(line); // Tambahkan garis ke wadah kue
-    }
-
-    // Fungsi Reset Puzzle
-    function resetConstellation(alertUser = true) {
-        if (alertUser) {
-            alert("Rasi Bintang hilang! Urutan salah atau Anda mengklik bintang yang sudah diaktifkan. Coba lagi!");
+    // --- Fungsi Bantuan Audio ---
+    function playSound(filePath, volume = 0.8) {
+        if (filePath) {
+            const audio = new Audio(filePath);
+            audio.volume = volume;
+            audio.play().catch(e => console.warn(Audio playback blocked: ${filePath}, e));
         }
-        currentSequence = [];
-        lastClickedStar = null;
-        clickCount = 0;
-        
-        // Hapus semua bintang yang sudah diklik dan garis
-        starCandles.forEach(star => {
-            star.classList.remove('clicked');
-        });
-        document.querySelectorAll('.constellation-line').forEach(line => line.remove());
     }
 
-    // --- Event Listener untuk Bintang ---
-    starCandles.forEach(star => {
-        star.addEventListener('click', function() {
-            const starOrder = this.getAttribute('data-order');
-            
-            // Cek apakah bintang ini sudah diklik
-            if (this.classList.contains('clicked')) return; 
+    function startMusic() {
+        if (!audioMelody) {
+            audioMelody = new Audio(MUSIC_MELODY);
+            audioMelody.loop = true;
+            audioMelody.volume = 0.6;
+        }
+        audioMelody.play().catch(e => console.error("Gagal memutar melodi:", e));
+    }
 
-            // 1. Validasi Urutan Klik
-            const expectedOrder = correctSequence[clickCount];
-            
-            if (starOrder === expectedOrder) {
-                // Klik BENAR
-                this.classList.add('clicked');
-                
-                if (lastClickedStar) {
-                    drawConstellationLine(lastClickedStar, this);
-                }
-                
-                lastClickedStar = this; // Simpan bintang saat ini
-                clickCount++;
-                
-                // 2. Cek Apakah Rasi Bintang Selesai
-                if (clickCount === correctSequence.length) {
-                    revealConstellationMessage();
-                }
+    function stopMusic() {
+        if (audioMelody) {
+            audioMelody.pause();
+            audioMelody.currentTime = 0;
+        }
+    }
 
-            } else {
-                // Klik SALAH
-                resetConstellation();
-            }
-        });
+    // ==========================================================
+    // 1. INTERAKSI: KLIK KUNCI EMAS
+    // ==========================================================
+    goldenKey.addEventListener('click', () => {
+        if (isBoxOpen) return; // Mencegah klik ganda
+
+        isBoxOpen = true;
+        
+        // 1. Mainkan Suara Kunci Diputar
+        playSound(SOUND_KEY_WIND, 0.9);
+
+        // 2. Animasikan Tutup Kotak Terbuka
+        musicBox.classList.add('open');
+        
+        // 3. Setelah Tutup Terbuka (sekitar 1.5 detik), mulai kejutan interior
+        setTimeout(() => {
+            // Patung mulai berputar
+            rotatingFigure.classList.add('spin'); 
+            
+            // Musik dimulai
+            startMusic(); 
+            
+            // Opsional: Tembak Confetti Halus
+            playSubtleConfetti();
+
+        }, 1500); // Sesuaikan dengan durasi transisi CSS tutup kotak
     });
 
-    // Fungsi Hadiah Akhir
-    function revealConstellationMessage() {
-        // Tampilkan pesan dengan glow
-        setTimeout(() => {
-            constellationMessage.classList.add('show-glow');
-        }, 500); 
+
+    // ==========================================================
+    // 2. INTERAKSI: TUTUP KOTAK MUSIK
+    // ==========================================================
+    closeBoxButton.addEventListener('click', () => {
+        if (!isBoxOpen) return;
+
+        isBoxOpen = false;
         
-        // Tembakkan Confetti Kosmik
-        playCosmicConfetti();
-    }
-    
-    // Fungsi Confetti yang Bertema Galaksi
-    function playCosmicConfetti() {
+        // Hentikan Patung dan Musik
+        rotatingFigure.classList.remove('spin');
+        stopMusic();
+        
+        // Tutup Kotak
+        musicBox.classList.remove('open');
+    });
+
+    // --- Fungsi Confetti Halus (Seperti Stardust) ---
+    function playSubtleConfetti() {
         if (typeof confetti !== 'undefined') {
             confetti({
-                particleCount: 200,
-                spread: 180,
-                ticks: 200,
-                gravity: 0.5,
-                scalar: 1,
-                // Warna Kosmik: Ungu Tua, Emas, Perak
-                colors: ['#4b0082', '#DAA520', '#C0C0C0'],
-                origin: { y: 0.6 } // Dari area kue
+                particleCount: 80,
+                spread: 90,
+                ticks: 100,
+                gravity: 0.3,
+                scalar: 0.7,
+                origin: { x: 0.5, y: 0.5 }, // Dari tengah kotak
+                // Warna Emas dan Perak
+                colors: ['#DAA520', '#C0C0C0', '#F5F5DC'] 
             });
         }
     }
