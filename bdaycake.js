@@ -1,38 +1,59 @@
-// Data warna konfeti yang dibuat dengan CSS-Only
+// Data warna konfeti
 const confettiColors = ['#ff4e50', '#fc913a', '#f9d62e', '#a8e063', '#4bc0c8', '#8e2de2']; 
-let candlesLit = 5;
+let candlesLit = 5; // Jumlah lilin awal
+let giftBoxOpened = false; // Status kotak kado
 
-// Fungsi yang dipanggil saat api lilin diklik
+// Fungsi yang dipanggil saat kotak kado diklik
+function openGift() {
+    if (giftBoxOpened) return; // Jika sudah terbuka, jangan lakukan apa-apa lagi
+
+    const giftBox = document.getElementById('giftBox');
+    const cakeContainer = document.getElementById('cakeContainer');
+    
+    giftBox.classList.add('open'); // Memicu animasi membuka kotak
+    giftBoxOpened = true;
+
+    // Sembunyikan kotak setelah animasi (setelah 0.5 detik)
+    setTimeout(() => {
+        giftBox.style.display = 'none';
+        cakeContainer.classList.remove('hidden'); // Tampilkan kue
+        
+        // Beri sedikit delay sebelum menganimasikan kue agar transisi lebih mulus
+        setTimeout(() => {
+            cakeContainer.classList.add('visible'); // Animasikan kue muncul
+        }, 50); 
+    }, 500); // Sesuaikan dengan durasi transisi CSS .box-top
+}
+
+
+// Fungsi yang dipanggil saat api lilin diklik (Sama seperti sebelumnya)
 function blowOut(flameElement) {
     if (flameElement.classList.contains('out')) {
-        return; // Lilin sudah padam, tidak melakukan apa-apa
+        return;
     }
 
     flameElement.classList.add('out');
     flameElement.parentNode.setAttribute('data-lit', 'false');
     candlesLit--;
 
-    // Periksa jika semua lilin sudah padam
     if (candlesLit === 0) {
         triggerCelebration();
     }
 }
 
-// Fungsi untuk memulai animasi Konfeti dan Pesan Ucapan
+// Fungsi untuk memulai animasi Konfeti dan Pesan Ucapan (Sama seperti sebelumnya)
 function triggerCelebration() {
     const messageContainer = document.querySelector('.message-container');
     const confettiContainer = document.getElementById('confetti-container');
 
-    // 1. Tampilkan dan Animasi Pesan Ucapan
     messageContainer.style.opacity = 1;
     messageContainer.classList.add('float-up');
 
-    // 2. Mulai Animasi Konfeti
     confettiContainer.style.display = 'block';
-    createConfetti(100); // Buat 100 buah konfeti
+    createConfetti(100);
 }
 
-// Fungsi untuk membuat Konfeti (visual murni CSS, posisi/animasi dengan JS)
+// Fungsi untuk membuat Konfeti (Sama seperti sebelumnya)
 function createConfetti(count) {
     const container = document.getElementById('confetti-container');
     
@@ -40,17 +61,14 @@ function createConfetti(count) {
         const confetto = document.createElement('div');
         confetto.classList.add('confetto');
         
-        // Pilih warna acak dari daftar CSS-Only
         const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
         confetto.style.backgroundColor = color;
         
-        // Atur posisi awal acak di atas layar
         confetto.style.left = Math.random() * 100 + 'vw';
         confetto.style.top = -10 + 'px';
         
-        // Atur animasi jatuh acak
-        const duration = Math.random() * 3 + 2; // Durasi 2s hingga 5s
-        const delay = Math.random() * 0.5; // Tunda 0s hingga 0.5s
+        const duration = Math.random() * 3 + 2;
+        const delay = Math.random() * 0.5;
         
         confetto.style.animation = `fall ${duration}s ${delay}s forwards`;
         confetto.style.animationTimingFunction = `cubic-bezier(${Math.random()}, ${Math.random()}, ${Math.random()}, ${Math.random()})`;
@@ -58,7 +76,6 @@ function createConfetti(count) {
         container.appendChild(confetto);
     }
     
-    // Tambahkan @keyframes fall ke CSS (karena tidak bisa langsung di JS, kita gunakan cara ini)
     const styleSheet = document.createElement("style");
     styleSheet.innerHTML = `
         @keyframes fall {
