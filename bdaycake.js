@@ -9,7 +9,6 @@ const cakeContainer = document.getElementById('cakeContainer');
 const messageContainer = document.getElementById('messageContainer'); 
 const congratsMessage = document.getElementById('congrats-message'); 
 const confettiContainer = document.getElementById('confetti-container');
-// const cakeSlice = document.getElementById('cakeSlice'); // DIHAPUS
 
 // FUNGSI UTAMA UNTUK MEMBUKA KOTAK
 function openGift() {
@@ -31,6 +30,7 @@ function openGift() {
         setTimeout(() => {
             cakeContainer.classList.add('visible'); 
 
+            // Pesan instruksi setelah kue muncul
             congratsMessage.textContent = `Klik kelima lilinnya! Sisa: ${candlesLit} 🕯️`;
             messageContainer.style.opacity = 1;
             messageContainer.style.pointerEvents = 'auto'; 
@@ -64,16 +64,12 @@ function blowOut(candleElement) {
     }
 }
 
-// FUNGSI cutTheCake() DIHAPUS
-
 // FUNGSI UNTUK MEMULAI PERAYAAN
 function triggerCelebration() {
     
     setTimeout(() => {
-        // cutTheCake() TIDAK LAGI DIPANGGIL
-
-        // Pesan Akhir
-        congratsMessage.textContent = "SELAMAT ULANG TAHUN ADEKKK! 🎂🥳🎉";
+        // Pesan Akhir (sesuai konten HTML)
+        congratsMessage.textContent = "CIEEE ULTAH NIH🎂🥳🎉";
 
         // Animasi pesan ke atas
         messageContainer.classList.remove('float-up'); 
