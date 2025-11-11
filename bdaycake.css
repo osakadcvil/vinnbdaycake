@@ -34,10 +34,21 @@ body {
     z-index: 100;
 }
 #congrats-message {
-    font-size: 2.2em; 
-    color: #ff69b4;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.1); 
+    /* FONT BARU: Bangers (Gaya Comic Meriah) */
+    font-family: 'Bangers', cursive; 
+    font-size: 3em; 
+    letter-spacing: 2px;
+    color: #ffd700; /* Kuning Emas */
+    /* Garis tepi untuk efek pop (komik) */
+    -webkit-text-stroke: 1px #ff69b4; 
+    text-shadow: 
+        3px 3px 0 #ff69b4, 
+        -3px -3px 0 #ff69b4, 
+        3px -3px 0 #ff69b4, 
+        -3px 3px 0 #ff69b4,
+        5px 5px 5px rgba(0,0,0,0.4); /* Bayangan */
     white-space: nowrap;
+    transition: all 0.3s ease-in-out;
 }
 
 /* --- KOTAK KADO --- */
