@@ -9,11 +9,9 @@ body {
     background-color: #f7f7f7;
     overflow: hidden; 
     font-family: sans-serif;
-    /* Font size dasar untuk skala (mobile first) */
     font-size: 14px; 
 }
 
-/* Media Query untuk Layar Lebih Besar (Tablet/Desktop) */
 @media (min-width: 600px) {
     body {
         font-size: 16px; 
@@ -26,7 +24,7 @@ body {
     top: 30%; 
     left: 50%;
     transform: translateX(-50%); 
-    opacity: 0;
+    opacity: 1; /* Diubah: Selalu terlihat di awal */
     pointer-events: none;
     text-align: center;
     transition: opacity 0.5s, top 0.5s; 
@@ -34,20 +32,13 @@ body {
 }
 
 #congrats-message {
-    /* Ukuran font diperkecil */
     font-size: 2.2em; 
     color: #ff69b4;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.1); 
     white-space: nowrap;
 }
 
-.float-up { animation: floatUp 5s forwards; }
-@keyframes floatUp {
-    0% { transform: translateX(-50%); opacity: 1; top: 30%; }
-    100% { transform: translate(-50%, -400px); opacity: 0; top: 30%;}
-}
-
-/* --- KOTAK KADO --- */
+/* ... (Kode CSS Kado tetap sama) ... */
 .gift-box {
     position: relative;
     width: 250px; 
@@ -60,7 +51,6 @@ body {
     transform: none; 
     z-index: 10;
 }
-
 .box-bottom { width: 100%; height: 100%; background-color: #cc3333; position: absolute; bottom: 0; border-radius: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.3); }
 .box-top { width: 105%; height: 35px; background-color: #e63946; position: absolute; top: -35px; left: -2.5%; border-radius: 5px; transform-origin: bottom center; transition: transform 0.5s ease-in-out; z-index: 3; box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
 .ribbon-v { width: 30px; height: 100%; background-color: #ffd700; position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; }
@@ -69,26 +59,22 @@ body {
 .ribbon-bow::before { content: ''; position: absolute; width: 40px; height: 40px; background-color: #ffd700; border-radius: 60% 30% 50% 50% / 50% 50% 50% 50%; left: 0; top: 0; transform: rotate(30deg); transform-origin: bottom right; box-shadow: inset -3px 3px 5px rgba(0,0,0,0.15); }
 .ribbon-bow::after { content: ''; position: absolute; width: 40px; height: 40px; background-color: #ffd700; border-radius: 30% 60% 50% 50% / 50% 50% 50% 50%; right: 0; top: 0; transform: rotate(-30deg); transform-origin: bottom left; box-shadow: inset 3px 3px 5px rgba(0,0,0,0.15); }
 .ribbon-bow .knot { position: absolute; width: 15px; height: 15px; background-color: #ffaa00; border-radius: 50%; top: 15px; left: 50%; transform: translateX(-50%); z-index: 5; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
-.click-instruction {
-    position: absolute; bottom: -40px; width: 100%; text-align: center; 
-    color: #555; font-size: 0.9em; opacity: 1; transition: opacity 0.3s;
-    left: 50%; 
-    transform: translate(-50%, 0);
-}
+.click-instruction { position: absolute; bottom: -40px; width: 100%; text-align: center; color: #555; font-size: 0.9em; opacity: 1; transition: opacity 0.3s; left: 50%; transform: translate(-50%, 0); }
 .gift-box.open { transform: translateY(-20px); }
 .gift-box.open .box-top { transform: rotateX(-90deg) translateY(-35px); }
-.gift-box.open .ribbon-bow, 
-.gift-box.open .ribbon-h,
-.gift-box.open .click-instruction { opacity: 0; transition: opacity 0.3s; }
+.gift-box.open .ribbon-bow, .gift-box.open .ribbon-h, .gift-box.open .click-instruction { opacity: 0; transition: opacity 0.3s; }
 
-/* --- Desain Kue --- */
-.hidden { display: none !important; }
+/* --- Desain Kue (Diperbaiki) --- */
+.hidden { 
+    display: none !important; 
+}
 
 .cake-container {
     position: absolute; 
     width: 250px; 
     top: 50%; 
     left: 50%;
+    /* Kondisi awal: Geser ke bawah dan hilang (hanya jika kelas hidden TIDAK ada) */
     transform: translate(-50%, 50px); 
     opacity: 0; 
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -97,91 +83,42 @@ body {
     perspective: 800px;
 }
 
-.cake-container.visible { opacity: 1; transform: translate(-50%, 0); }
+/* Kunci Perbaikan: Kelas ini dipicu oleh JS untuk memunculkan kue */
+.cake-container.visible { 
+    opacity: 1; 
+    transform: translate(-50%, 0); /* Geser ke posisi Y yang benar */
+}
 
+/* ... (Kode CSS Lilin tetap sama) ... */
 .plate { width: 300px; height: 12px; background-color: #ccc; border-radius: 50%; position: absolute; bottom: -15px; left: -25px; z-index: 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); }
-
 .cake-layer { width: 100%; height: 50px; position: relative; border-radius: 5px; margin-bottom: 6px; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1); } 
-
 .layer-bottom { background-color: #8b4513; }
 .layer-middle { background-color: #f0e68c; }
 .layer-top { background-color: #ffc0cb; height: 25px; border-radius: 5px 5px 0 0;} 
-
-/* Lilin */
-.candle-set { 
-    display: flex; 
-    justify-content: space-around; 
-    width: 180px; 
-    position: absolute; 
-    top: -25px; 
-    left: 35px; 
-    z-index: 2; 
-    /* Tambahkan transisi agar hilangnya lilin terlihat halus saat opacity diubah JS */
-    transition: opacity 1s ease-out; 
-} 
+.candle-set { transition: opacity 1s ease-out; display: flex; justify-content: space-around; width: 180px; position: absolute; top: -25px; left: 35px; z-index: 2; } 
 .candle { width: 10px; height: 40px; background-color: #ffffff; border: 1px solid #000000; border-radius: 2px; position: relative; } 
 .wick { width: 2px; height: 7px; background-color: #222; position: absolute; top: -7px; left: 4px; }
-.flame { 
-    width: 8px; height: 18px; background: linear-gradient(to top, orange, yellow);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    position: absolute; top: -20px; left: 1px; filter: blur(0.5px); 
-    cursor: pointer; box-shadow: 0 0 5px 2px rgba(255, 165, 0, 0.7); 
-    animation: flicker 0.2s infinite alternate; 
-    transition: opacity 0.3s; /* Tambahkan transisi untuk efek padam */
-}
+.flame { transition: opacity 0.3s; width: 8px; height: 18px; background: linear-gradient(to top, orange, yellow); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; position: absolute; top: -20px; left: 1px; filter: blur(0.5px); cursor: pointer; box-shadow: 0 0 5px 2px rgba(255, 165, 0, 0.7); animation: flicker 0.2s infinite alternate; }
 .flame.out { opacity: 0; box-shadow: none; animation: none; }
 @keyframes flicker { from { transform: scale(1, 1); } to { transform: scale(1.05, 0.95); } }
 
 
-/* --------------------------------------------------- */
-/* 🎊 KONFETI MERIAH (DARI RESPON SEBELUMNYA) 🎊 */
-/* --------------------------------------------------- */
-
+/* --- KONFETI MERIAH --- */
 #confetti-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Penting agar pengguna bisa berinteraksi dengan elemen lain */
-    z-index: 1000;
-    overflow: hidden;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1000; overflow: hidden;
 }
-
 .confetto {
-    position: absolute;
-    width: 8px; /* Ukuran standar */
-    height: 15px; /* Bisa lebih panjang */
-    background-color: transparent; /* Akan diisi JS */
-    opacity: 0.9;
-    will-change: transform, opacity;
-    /* Tambahkan animasi goyangan agar lebih hidup */
+    position: absolute; width: 8px; height: 15px; background-color: transparent;
+    opacity: 0.9; will-change: transform, opacity;
     animation: confetti-wobble 2s ease-in-out infinite alternate;
 }
 
-/* Keyframes untuk variasi animasi jatuh */
-@keyframes confetti-fall-normal {
-    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; }
-}
+@keyframes confetti-fall-normal { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; } }
+@keyframes confetti-fall-slow { 0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg) translateX(50px); opacity: 0.3; } }
+@keyframes confetti-fall-fast { 0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(180deg) translateX(-30px); opacity: 0.6; } }
+@keyframes confetti-wobble { 0%, 100% { transform: translateX(0) scaleX(1); } 50% { transform: translateX(10px) scaleX(0.5); } }
 
-@keyframes confetti-fall-slow {
-    0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg) translateX(50px); opacity: 0.3; }
-}
-
-@keyframes confetti-fall-fast {
-    0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(180deg) translateX(-30px); opacity: 0.6; }
-}
-
-/* Keyframes untuk konfeti yang berputar-putar/bergoyang */
-@keyframes confetti-wobble {
-    0%, 100% { transform: translateX(0) scaleX(1); }
-    50% { transform: translateX(10px) scaleX(0.5); }
-}
-
-/* Kelas tambahan untuk variasi ukuran dan bentuk */
 .confetto.small { width: 5px; height: 10px; border-radius: 2px; }
 .confetto.large { width: 10px; height: 20px; border-radius: 5px; }
 .confetto.circle { border-radius: 50%; width: 10px; height: 10px; }
