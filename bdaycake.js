@@ -9,7 +9,7 @@ const cakeContainer = document.getElementById('cakeContainer');
 const messageContainer = document.getElementById('messageContainer'); 
 const congratsMessage = document.getElementById('congrats-message'); 
 const confettiContainer = document.getElementById('confetti-container');
-const cakeSlice = document.getElementById('cakeSlice'); // PENTING: Referensi ke slice
+// const cakeSlice = document.getElementById('cakeSlice'); // DIHAPUS
 
 // FUNGSI UTAMA UNTUK MEMBUKA KOTAK
 function openGift() {
@@ -64,24 +64,13 @@ function blowOut(candleElement) {
     }
 }
 
-// FUNGSI UNTUK MEMOTONG KUE
-function cutTheCake() {
-    // 1. Tampilkan potongan kue (hilangkan 'hidden')
-    cakeSlice.classList.remove('hidden');
-    
-    // 2. Pemicu animasi (tambahkan 'cut')
-    setTimeout(() => {
-        cakeSlice.classList.add('cut');
-    }, 100);
-}
-
+// FUNGSI cutTheCake() DIHAPUS
 
 // FUNGSI UNTUK MEMULAI PERAYAAN
 function triggerCelebration() {
     
     setTimeout(() => {
-        // PENTING: Potongan kue dipanggil di sini
-        cutTheCake(); 
+        // cutTheCake() TIDAK LAGI DIPANGGIL
 
         // Pesan Akhir
         congratsMessage.textContent = "SELAMAT ULANG TAHUN ADEKKK! 🎂🥳🎉";
