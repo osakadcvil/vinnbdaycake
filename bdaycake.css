@@ -10,7 +10,7 @@ body {
     font-family: sans-serif;
 }
 
-/* --- Tampilan Pesan Ucapan --- */
+/* --- Tampilan Pesan Ucapan (Tidak Berubah) --- */
 .message-container {
     position: absolute;
     top: 50%;
@@ -38,7 +38,7 @@ body {
     100% { transform: translate(-50%, -400px); opacity: 0; }
 }
 
-/* --- KOTAK KADO 3D (CSS-ONLY) --- */
+/* --- KOTAK KADO SIMETRIS (LURUS) --- */
 .gift-box {
     position: relative;
     width: 200px;
@@ -48,8 +48,10 @@ body {
     transform-style: preserve-3d;
     transition: transform 0.5s ease-in-out;
     margin-top: -50px; 
-    /* Efek 3D awal agar terlihat seperti balok */
-    transform: rotateX(10deg) rotateY(10deg); 
+    
+    /* PENTING: Rotasi 3D dihilangkan, membuatnya simetris */
+    transform: none; 
+    
     z-index: 10;
 }
 
@@ -57,29 +59,30 @@ body {
 .box-bottom {
     width: 100%;
     height: 100%;
-    background-color: #cc3333; /* Merah gelap untuk efek 3D */
+    background-color: #cc3333; /* Merah gelap */
     position: absolute;
     bottom: 0;
     border-radius: 5px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.3); /* Sedikit bayangan internal */
+    /* Memberi bayangan agar tetap terasa ada kedalaman */
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3); 
 }
 
 /* Tutup Kotak */
 .box-top {
-    width: 105%; /* Lebih lebar dari body untuk efek tutup menonjol */
+    width: 105%; 
     height: 30px; 
     background-color: #e63946; /* Merah cerah untuk tutup */
     position: absolute;
-    top: -30px; /* Di atas body kotak */
+    top: -30px; 
     left: -2.5%; 
     border-radius: 5px;
     transform-origin: bottom center;
     transition: transform 0.5s ease-in-out; 
     z-index: 3;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Bayangan luar */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2); 
 }
 
-/* Pita Vertikal dan Horizontal */
+/* Pita Vertikal dan Horizontal (Warna Emas) */
 .ribbon-v { 
     width: 25px; 
     height: 100%; 
@@ -99,10 +102,10 @@ body {
     z-index: 2; 
 }
 
-/* --- PERBAIKAN PITA ATAS (BOW) ELEGAN --- */
+/* --- PITA ATAS (BOW) ELEGAN --- */
 .ribbon-bow {
     position: absolute;
-    width: 80px; /* Lebar total pita */
+    width: 80px; 
     height: 40px; 
     /* POSISI: Tepat di tengah TUTUP KOTAK */
     top: -50px; 
@@ -116,16 +119,15 @@ body {
 .ribbon-bow::before {
     content: '';
     position: absolute;
-    width: 40px; /* Lebih besar */
+    width: 40px; 
     height: 40px; 
     background-color: #ffd700; 
-    /* Bentuk loop dengan border-radius yang lebih kompleks */
     border-radius: 60% 30% 50% 50% / 50% 50% 50% 50%; 
     left: 0;
     top: 0;
-    transform: rotate(30deg); /* Rotasi */
+    transform: rotate(30deg); 
     transform-origin: bottom right;
-    box-shadow: inset -3px 3px 5px rgba(0,0,0,0.15); /* Bayangan dalam */
+    box-shadow: inset -3px 3px 5px rgba(0,0,0,0.15); 
 }
 
 /* Loop Kanan Pita */
@@ -143,12 +145,12 @@ body {
     box-shadow: inset 3px 3px 5px rgba(0,0,0,0.15); 
 }
 
-/* Tambahan Simpul Tengah */
+/* Simpul Tengah (dari div .knot di HTML) */
 .ribbon-bow .knot {
     position: absolute;
     width: 15px;
     height: 15px;
-    background-color: #ffaa00; /* Emas yang lebih gelap */
+    background-color: #ffaa00; 
     border-radius: 50%;
     top: 15px;
     left: 50%;
@@ -160,15 +162,14 @@ body {
 .click-instruction {
     position: absolute; bottom: -40px; width: 100%; text-align: center; 
     color: #555; font-size: 0.9em; opacity: 1; transition: opacity 0.3s;
-    /* Penyesuaian posisi agar tidak terganggu oleh kotak 3D */
     left: 50%; 
     transform: translate(-50%, 0);
 }
 
 /* Animasi saat kotak terbuka */
 .gift-box.open {
-    /* Angkat kotak sedikit saat dibuka agar lebih dramatis */
-    transform: rotateX(10deg) rotateY(10deg) translateY(-20px);
+    /* PENTING: Rotasi 3D dihilangkan dari animasi pembuka */
+    transform: translateY(-20px);
 }
 .gift-box.open .box-top {
     /* Putar tutup ke belakang */
@@ -211,7 +212,6 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* ... (CSS Kue dan Lilin tetap sama, tidak perlu diulang) ... */
 .cake-layer {
     width: 100%; height: 40px; position: relative; border-radius: 5px; margin-bottom: 5px;
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
