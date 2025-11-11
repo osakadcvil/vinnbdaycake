@@ -1,38 +1,33 @@
+// --- bdaycake.js (KODE LENGKAP) ---
+
 const totalCandles = 5;
 let blownOutCount = 0;
 const confettiContainer = document.getElementById('confetti-container');
 const candleSet = document.querySelector('.candle-set'); 
 
+// Palet warna yang standar
 const confettiColors = [
     '#ff6f69', '#ffcc5c', '#88d8b0', '#6b5b95', '#e0b7ff', '#f7a399'
 ];
 
-// FUNGSI KONFETI (DITINGKATKAN)
+// FUNGSI KONFETI (VERSI NORMAL)
 function generateConfetti() {
-    const confettiCount = 200; 
-    const fallAnimations = ['confetti-fall-normal', 'confetti-fall-slow', 'confetti-fall-fast']; 
-    const shapes = ['', 'small', 'large', 'circle'];
-
+    const confettiCount = 80; // Disesuaikan menjadi normal (tidak terlalu banyak)
+    
     for (let i = 0; i < confettiCount; i++) {
         const confetto = document.createElement('div');
         confetto.classList.add('confetto');
         
         const randomColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-        const randomAnimation = fallAnimations[Math.floor(Math.random() * fallAnimations.length)];
-        const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
         
-        if (randomShape) {
-            confetto.classList.add(randomShape);
-        }
-
         confetto.style.backgroundColor = randomColor;
         confetto.style.left = Math.random() * 100 + 'vw'; 
-        confetto.style.animationName = randomAnimation;
         
-        const duration = (Math.random() * 6) + 4; 
+        // Durasi jatuh yang standar (4s - 6s)
+        const duration = (Math.random() * 2) + 4; 
         confetto.style.animationDuration = duration + 's';
         
-        confetto.style.animationDelay = (Math.random() * 0.5) + 's'; 
+        confetto.style.animationDelay = (Math.random() * 0.2) + 's'; // Penundaan lebih singkat
 
         confettiContainer.appendChild(confetto);
 
@@ -54,21 +49,18 @@ function openGift() {
 
     // 1. Kotak kado terbuka
     giftBox.classList.add('open');
-    congratsMessage.innerText = 'Lihat Kuemu! Sekarang Tiup Lilinnya 🌬️';
+    congratsMessage.innerText = 'Lihat Kuemu! Sekarang Klik Lilinnya🕯️';
 
     setTimeout(() => {
-        // 2. Kado dan pesan menghilang, kue muncul
+        // Sembunyikan kado dan pesan setelah terbuka
         giftBox.style.opacity = '0';
         giftBox.style.pointerEvents = 'none';
         
-        // KUNCI PERBAIKAN KUE MUNCUL: Hapus 'hidden' dan tambahkan 'visible'
+        // KUE MUNCUL
         cakeContainer.classList.remove('hidden');
         cakeContainer.classList.add('visible'); 
         
-        // PICU KONFETI BERTURUT-TURUT
-        generateConfetti();
-        setTimeout(generateConfetti, 100);
-        setTimeout(generateConfetti, 200);
+        // KONFETI DIHAPUS DARI SINI
 
     }, 1000); 
 }
@@ -92,24 +84,13 @@ function checkAllBlownOut() {
     if (blownOutCount === totalCandles) {
         congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
         
-        // Lilin menghilang, kue tetap ada
-        if (candleSet) {
-            candleSet.style.opacity = '0'; 
-        }
+        // PERBAIKAN: Lilin JANGAN menghilang
+        // if (candleSet) { candleSet.style.opacity = '0'; } <-- BARIS INI DIHAPUS
 
-        // PICU KONFETI BERKALI-KALI
-        let burstCount = 0;
-        const burstInterval = setInterval(() => {
-            generateConfetti();
-            burstCount++;
-            if (burstCount >= 5) {
-                clearInterval(burstInterval);
-            }
-        }, 300); 
+        // PICU KONFETI HANYA SEKALI
+        generateConfetti(); 
 
     } else {
         congratsMessage.innerText = `Masih ada ${totalCandles - blownOutCount} lilin lagi!`;
     }
 }
-
-
