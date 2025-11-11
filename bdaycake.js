@@ -126,3 +126,4 @@ body {
 .confetto.small { width: 5px; height: 10px; border-radius: 2px; }
 .confetto.large { width: 10px; height: 20px; border-radius: 5px; }
 .confetto.circle { border-radius: 50%; width: 10px; height: 10px; }
+
