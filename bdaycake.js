@@ -3,9 +3,9 @@ const confettiColors = ['#ff4e50', '#fc913a', '#f9d62e', '#a8e063', '#4bc0c8', '
 let candlesLit = 5; 
 let giftBoxOpened = false; 
 
-// FUNGSI UTAMA UNTUK MEMBUKA KOTAK
+// FUNGSI UTAMA UNTUK MEMBUKA KOTAK (sekarang dipanggil dari div.gift-box)
 function openGift() {
-    if (giftBoxOpened) return;
+    if (giftBoxOpened) return; // Mencegah membuka berkali-kali
 
     const giftBox = document.getElementById('giftBox');
     const cakeContainer = document.getElementById('cakeContainer');
@@ -13,7 +13,7 @@ function openGift() {
     giftBox.classList.add('open'); // Memicu animasi CSS kotak terbuka
     giftBoxOpened = true;
 
-    // Sembunyikan kotak dan tampilkan kue setelah animasi (0.5 detik)
+    // Sembunyikan kotak dan tampilkan kue setelah animasi tutup kotak selesai
     setTimeout(() => {
         giftBox.style.display = 'none'; // Sembunyikan kotak sepenuhnya
         
@@ -37,7 +37,7 @@ function blowOut(flameElement) {
     
     // Pastikan kotak sudah terbuka sebelum bisa memadamkan lilin
     if (!giftBoxOpened) {
-        alert("Buka kotak kadonya dulu ya!");
+        alert("Buka kotak kadonya dulu ya!"); // Pesan peringatan
         return;
     }
 
@@ -81,7 +81,6 @@ function createConfetti(count) {
         const duration = Math.random() * 3 + 2;
         const delay = Math.random() * 0.5;
         
-        // Gunakan keyframes fall yang dibuat di bawah
         confetto.style.animation = `fall ${duration}s ${delay}s forwards`;
         confetto.style.animationTimingFunction = `cubic-bezier(${Math.random()}, ${Math.random()}, ${Math.random()}, ${Math.random()})`;
         
