@@ -111,3 +111,4 @@ function createConfetti(count) {
         confettiContainer.appendChild(confetto);
     }
 }
+
