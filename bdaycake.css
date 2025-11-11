@@ -20,7 +20,7 @@ body {
     }
 }
 
-/* --- Tampilan Pesan Ucapan (Diperkecil) --- */
+/* --- Tampilan Pesan Ucapan --- */
 .message-container {
     position: absolute;
     top: 30%; 
@@ -47,7 +47,7 @@ body {
     100% { transform: translate(-50%, -400px); opacity: 0; top: 30%;}
 }
 
-/* --- KOTAK KADO (Diperbesar) --- */
+/* --- KOTAK KADO --- */
 .gift-box {
     position: relative;
     width: 250px; 
@@ -81,12 +81,12 @@ body {
 .gift-box.open .ribbon-h,
 .gift-box.open .click-instruction { opacity: 0; transition: opacity 0.3s; }
 
-/* --- Desain Kue (Diperbesar) --- */
+/* --- Desain Kue --- */
 .hidden { display: none !important; }
 
 .cake-container {
     position: absolute; 
-    width: 250px; /* Lebar kue diperbesar */
+    width: 250px; 
     top: 50%; 
     left: 50%;
     transform: translate(-50%, 50px); 
@@ -107,8 +107,18 @@ body {
 .layer-middle { background-color: #f0e68c; }
 .layer-top { background-color: #ffc0cb; height: 25px; border-radius: 5px 5px 0 0;} 
 
-/* Lilin (Proporsional dengan kue baru) */
-.candle-set { display: flex; justify-content: space-around; width: 180px; position: absolute; top: -25px; left: 35px; z-index: 2; } 
+/* Lilin */
+.candle-set { 
+    display: flex; 
+    justify-content: space-around; 
+    width: 180px; 
+    position: absolute; 
+    top: -25px; 
+    left: 35px; 
+    z-index: 2; 
+    /* Tambahkan transisi agar hilangnya lilin terlihat halus saat opacity diubah JS */
+    transition: opacity 1s ease-out; 
+} 
 .candle { width: 10px; height: 40px; background-color: #ffffff; border: 1px solid #000000; border-radius: 2px; position: relative; } 
 .wick { width: 2px; height: 7px; background-color: #222; position: absolute; top: -7px; left: 4px; }
 .flame { 
@@ -117,12 +127,16 @@ body {
     position: absolute; top: -20px; left: 1px; filter: blur(0.5px); 
     cursor: pointer; box-shadow: 0 0 5px 2px rgba(255, 165, 0, 0.7); 
     animation: flicker 0.2s infinite alternate; 
+    transition: opacity 0.3s; /* Tambahkan transisi untuk efek padam */
 }
 .flame.out { opacity: 0; box-shadow: none; animation: none; }
 @keyframes flicker { from { transform: scale(1, 1); } to { transform: scale(1.05, 0.95); } }
 
 
-/* --- HANYA BAGIAN KONFETI YANG DIPERBARUI --- */
+/* --------------------------------------------------- */
+/* 🎊 KONFETI MERIAH (DARI RESPON SEBELUMNYA) 🎊 */
+/* --------------------------------------------------- */
+
 #confetti-container {
     position: fixed;
     top: 0;
@@ -141,6 +155,8 @@ body {
     background-color: transparent; /* Akan diisi JS */
     opacity: 0.9;
     will-change: transform, opacity;
+    /* Tambahkan animasi goyangan agar lebih hidup */
+    animation: confetti-wobble 2s ease-in-out infinite alternate;
 }
 
 /* Keyframes untuk variasi animasi jatuh */
@@ -163,11 +179,6 @@ body {
 @keyframes confetti-wobble {
     0%, 100% { transform: translateX(0) scaleX(1); }
     50% { transform: translateX(10px) scaleX(0.5); }
-}
-
-.confetto {
-    /* Tambahkan animasi goyangan agar lebih hidup */
-    animation: confetti-wobble 2s ease-in-out infinite alternate;
 }
 
 /* Kelas tambahan untuk variasi ukuran dan bentuk */
