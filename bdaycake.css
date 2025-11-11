@@ -122,10 +122,55 @@ body {
 @keyframes flicker { from { transform: scale(1, 1); } to { transform: scale(1.05, 0.95); } }
 
 
-/* --- Animasi Konfeti --- */
-#confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; display: none; overflow: hidden; }
-.confetto { position: absolute; width: 10px; height: 10px; background-color: transparent; border-radius: 50%; opacity: 0; } 
-@keyframes fall {
-    from { opacity: 0.8; }
-    to { transform: translate3d(0, 110vh, 0) rotate(720deg); opacity: 0.5; }
+/* --- HANYA BAGIAN KONFETI YANG DIPERBARUI --- */
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Penting agar pengguna bisa berinteraksi dengan elemen lain */
+    z-index: 1000;
+    overflow: hidden;
 }
+
+.confetto {
+    position: absolute;
+    width: 8px; /* Ukuran standar */
+    height: 15px; /* Bisa lebih panjang */
+    background-color: transparent; /* Akan diisi JS */
+    opacity: 0.9;
+    will-change: transform, opacity;
+}
+
+/* Keyframes untuk variasi animasi jatuh */
+@keyframes confetti-fall-normal {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; }
+}
+
+@keyframes confetti-fall-slow {
+    0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg) translateX(50px); opacity: 0.3; }
+}
+
+@keyframes confetti-fall-fast {
+    0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(180deg) translateX(-30px); opacity: 0.6; }
+}
+
+/* Keyframes untuk konfeti yang berputar-putar/bergoyang */
+@keyframes confetti-wobble {
+    0%, 100% { transform: translateX(0) scaleX(1); }
+    50% { transform: translateX(10px) scaleX(0.5); }
+}
+
+.confetto {
+    /* Tambahkan animasi goyangan agar lebih hidup */
+    animation: confetti-wobble 2s ease-in-out infinite alternate;
+}
+
+/* Kelas tambahan untuk variasi ukuran dan bentuk */
+.confetto.small { width: 5px; height: 10px; border-radius: 2px; }
+.confetto.large { width: 10px; height: 20px; border-radius: 5px; }
+.confetto.circle { border-radius: 50%; width: 10px; height: 10px; }
