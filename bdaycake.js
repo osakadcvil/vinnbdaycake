@@ -113,7 +113,7 @@ let confettiTriggered = false;
 function checkAllBlownOut() {
     if (blownOutCount === totalCandles) {
         // Pesan ucapan ini akan menggunakan Font Poppins yang bersih
-        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN!🥳🎉';
+        congratsMessage.innerText = 'MET ULTAH ADEKK🎉🎁🎂🫶🏻';
         
         // PICU SEMBURAN KONFETI & BALON INSTAN
         if (!confettiTriggered) {
