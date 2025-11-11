@@ -3,40 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magical Music Box Cake</title>
+    <title>Selamat Ulang Tahun, Vinn!</title>
     <link rel="stylesheet" href="bdaycake.css">
 </head>
 <body>
-    <div class="container">
-        
-        <h1 class="box-title">Kotak Musik Keajaiban</h1>
 
-        <div class="music-box-container">
-            <div class="music-box" id="musicBox">
-                
-                <div class="box-lid" id="boxLid">
-                    <div class="golden-key-button" id="goldenKey"></div>
-                </div>
-
-                <div class="box-interior">
-                    
-                    <div class="figure-platform">
-                        <div class="rotating-figure" id="rotatingFigure">
-                            🎼🎶
-                        </div>
-                    </div>
-                    
-                    <div class="hidden-message" id="hiddenMessage">
-                        <p>Selamat Ulang Tahun, Vinn!</p>
-                        <p>Sebuah kejutan manis menantimu di sini.</p>
-                        <button id="closeBox">Tutup Kotak Musik</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="message-container">
+        <h1 id="congrats-message">SELAMAT ULANG TAHUN ADEKKK!🎂🥳🎉</h1>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <div class="cake-container">
+        <div class="candle-set">
+            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
+            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
+            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
+            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
+            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
+        </div>
+        
+        <div class="cake-layer layer-top"></div>
+        <div class="cake-layer layer-middle"></div>
+        <div class="cake-layer layer-bottom"></div>
+        <div class="plate"></div>
+    </div>
+
+    <div id="confetti-container"></div>
+
     <script src="bdaycake.js"></script>
 </body>
 </html>
