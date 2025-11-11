@@ -5,161 +5,148 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #121212; /* Latar belakang sangat gelap */
-    font-family: 'Times New Roman', serif;
-    color: #DAA520; /* Warna Teks Emas */
-    perspective: 1000px; /* Diperlukan untuk efek 3D */
-    overflow: hidden;
+    background-color: #f7f7f7; /* Background terang */
+    overflow: hidden; /* Penting untuk animasi balon dan konfeti */
+    font-family: sans-serif;
 }
 
-.box-title {
-    color: #DAA520;
-    text-shadow: 0 0 5px #DAA520;
-    margin-bottom: 30px;
-    font-size: 2.5em;
-    text-transform: uppercase;
-}
-
-.music-box-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-/* --- Dasar Kotak Musik --- */
-.music-box {
-    width: 350px;
-    height: 150px;
-    background-color: #4b0082; /* Deep Violet/Burgundy */
-    border: 5px solid #DAA520; /* Border Emas */
-    box-shadow: 
-        0 10px 20px rgba(0, 0, 0, 0.5), 
-        0 0 0 10px #2a004f; /* Shadow berlapis */
-    border-radius: 5px;
-    position: relative;
-    transform-style: preserve-3d;
-}
-
-/* --- Interior Kotak Musik --- */
-.box-interior {
+/* --- Tampilan Pesan Ucapan --- */
+.message-container {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #f7f7e8; /* Interior Warna Cream/Beige */
-    border: 3px solid #DAA520;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transform: translateZ(-10px); /* Interior sedikit ke belakang */
-}
-
-/* --- Tutup Kotak (Lid) - Bagian yang Bergerak --- */
-.box-lid {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #36454F; /* Dark Charcoal/Teal Tua */
-    border-radius: 5px;
-    transform-origin: top center;
-    transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Transisi pegas yang dramatis */
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 10px rgba(255, 255, 0, 0.5); /* Sedikit glow saat tertutup */
-}
-
-/* --- Animasi Tutup Terbuka --- */
-.music-box.open #boxLid {
-    transform: rotateX(-120deg) translateY(-50px) translateZ(0);
-}
-
-/* --- Tombol Kunci Emas --- */
-.golden-key-button {
-    width: 50px;
-    height: 50px;
-    background-color: #DAA520;
-    border-radius: 50%;
-    position: absolute;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5);
-    transition: transform 0.2s ease-in-out;
-}
-.golden-key-button:hover {
-    transform: scale(1.1);
-}
-/* Kunci di bagian atas tutup kotak */
-.music-box.open #goldenKey {
-    opacity: 0; /* Sembunyikan kunci saat tutup terbuka */
-}
-
-/* --- Patung Penari (Rotating Figure) --- */
-.figure-platform {
-    width: 50px;
-    height: 50px;
-    background-color: #C0C0C0; /* Warna Perak */
-    border-radius: 50%;
-    box-shadow: inset 0 0 10px #777;
-    position: relative;
-    z-index: 1;
-}
-
-.rotating-figure {
-    font-size: 2.5em; /* Ukuran Patung (Emoji/Icon) */
-    position: absolute;
-    top: -20px; 
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 0.5s;
-}
-
-.music-box.open #rotatingFigure {
-    opacity: 1;
-}
-
-/* --- Animasi Rotasi Patung --- */
-.rotating-figure.spin {
-    animation: rotateFigure 4s linear infinite;
-}
-@keyframes rotateFigure {
-    from { transform: translateX(-50%) rotateY(0deg); }
-    to { transform: translateX(-50%) rotateY(360deg); }
-}
-
-/* --- Pesan Tersembunyi --- */
-.hidden-message {
-    position: absolute;
-    width: 80%;
+    pointer-events: none;
     text-align: center;
-    color: #444; /* Warna teks yang jelas di latar belakang cerah */
-    font-size: 1.2em;
-    opacity: 0;
-    transition: opacity 1s 1s ease-in-out; /* Tunda munculnya pesan */
+    transition: opacity 0.5s;
+    z-index: 100;
 }
 
-.music-box.open #hiddenMessage {
-    opacity: 1;
+#congrats-message {
+    font-size: 2.5rem;
+    color: #ff69b4; /* Pink cerah */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
-#closeBox {
-    background-color: #A52A2A; /* Burgundy/Merah Anggur */
-    color: white;
-    border: none;
-    padding: 10px 20px;
+/* Animasi Pesan "Terbang" */
+.float-up {
+    animation: floatUp 5s forwards;
+}
+@keyframes floatUp {
+    0% { transform: translate(-50%, 0); opacity: 1; }
+    100% { transform: translate(-50%, -400px); opacity: 0; }
+}
+
+
+/* --- Desain Kue (CSS-Only) --- */
+.cake-container {
+    position: relative;
+    width: 200px;
+    margin-top: 150px; /* Jarak agar kue tidak terlalu tinggi */
+}
+
+.plate {
+    width: 250px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -15px;
+    left: -25px;
+    z-index: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cake-layer {
+    width: 100%;
+    height: 40px;
+    position: relative;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    margin-top: 15px;
-    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
 }
-#closeBox:hover {
-    background-color: #800000;
+
+.layer-bottom { background-color: #8b4513; } /* Cokelat */
+.layer-middle { background-color: #f0e68c; } /* Kuning Pucat */
+.layer-top { 
+    background-color: #ffc0cb; /* Pink muda untuk lapisan atas/icing */
+    height: 20px;
+    border-radius: 5px 5px 0 0;
+}
+
+/* --- Lilin (CSS-Only) --- */
+.candle-set {
+    display: flex;
+    justify-content: space-around;
+    width: 150px;
+    position: absolute;
+    top: -50px;
+    left: 25px;
+    z-index: 2;
+}
+
+.candle {
+    width: 8px;
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    position: relative;
+}
+
+.wick {
+    width: 2px;
+    height: 5px;
+    background-color: #222;
+    position: absolute;
+    top: -5px;
+    left: 3px;
+}
+
+.flame {
+    /* Api (Warna Kuning/Oranye Murni CSS) */
+    width: 6px;
+    height: 15px;
+    background: linear-gradient(to top, orange, yellow);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute;
+    top: -16px;
+    left: 1px;
+    filter: blur(0.5px);
+    cursor: pointer;
+    box-shadow: 0 0 5px 2px rgba(255, 165, 0, 0.7); /* Efek cahaya */
+    animation: flicker 0.2s infinite alternate;
+}
+
+.flame.out {
+    opacity: 0;
+    box-shadow: none;
+}
+
+@keyframes flicker {
+    from { transform: scale(1, 1); }
+    to { transform: scale(1.05, 0.95); }
+}
+
+/* --- Animasi Konfeti (CSS-Only) --- */
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    display: none; /* Sembunyikan secara default */
+}
+
+/* Konfeti dibuat menggunakan JavaScript, dan dianimasikan dengan CSS */
+.confetto {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+    border-radius: 50%;
+    opacity: 0;
 }
