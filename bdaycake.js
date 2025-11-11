@@ -9,7 +9,7 @@ const cakeContainer = document.getElementById('cakeContainer');
 const messageContainer = document.getElementById('messageContainer'); 
 const congratsMessage = document.getElementById('congrats-message'); 
 const confettiContainer = document.getElementById('confetti-container');
-const cakeSlice = document.getElementById('cakeSlice'); // BARU
+const cakeSlice = document.getElementById('cakeSlice'); // PENTING: Referensi ke slice
 
 // FUNGSI UTAMA UNTUK MEMBUKA KOTAK
 function openGift() {
@@ -31,7 +31,6 @@ function openGift() {
         setTimeout(() => {
             cakeContainer.classList.add('visible'); 
 
-            // Instruksi Klik Lilin
             congratsMessage.textContent = `Klik kelima lilinnya! Sisa: ${candlesLit} 🕯️`;
             messageContainer.style.opacity = 1;
             messageContainer.style.pointerEvents = 'auto'; 
@@ -65,14 +64,12 @@ function blowOut(candleElement) {
     }
 }
 
-// FUNGSI BARU UNTUK MEMOTONG KUE
+// FUNGSI UNTUK MEMOTONG KUE
 function cutTheCake() {
-    // 1. Ilusi potongan hilang pada kue utama
-    cakeContainer.classList.add('cut'); 
-
-    // 2. Tampilkan dan animasikan potongan kue
+    // 1. Tampilkan potongan kue (hilangkan 'hidden')
     cakeSlice.classList.remove('hidden');
     
+    // 2. Pemicu animasi (tambahkan 'cut')
     setTimeout(() => {
         cakeSlice.classList.add('cut');
     }, 100);
@@ -83,7 +80,7 @@ function cutTheCake() {
 function triggerCelebration() {
     
     setTimeout(() => {
-        // Pemotongan kue dipanggil pertama
+        // PENTING: Potongan kue dipanggil di sini
         cutTheCake(); 
 
         // Pesan Akhir
