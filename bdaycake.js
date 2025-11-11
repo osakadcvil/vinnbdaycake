@@ -1,110 +1,128 @@
-// --- bdaycake.js (KODE LENGKAP) ---
+/* --- Global & Responsive Base --- */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f7f7f7;
+    overflow: hidden; 
+    font-family: sans-serif;
+    font-size: 14px; 
+}
 
-const totalCandles = 5;
-let blownOutCount = 0;
-const confettiContainer = document.getElementById('confetti-container');
-const candleSet = document.querySelector('.candle-set'); 
-
-const confettiColors = [
-    '#ff6f69', '#ffcc5c', '#88d8b0', '#6b5b95', '#e0b7ff', '#f7a399'
-];
-
-// FUNGSI UTAMA UNTUK MENGHASILKAN KONFETI (SAMA SEPERTI SEBELUMNYA)
-function generateConfetti() {
-    const confettiCount = 200; 
-    const fallAnimations = ['confetti-fall-normal', 'confetti-fall-slow', 'confetti-fall-fast']; 
-    const shapes = ['', 'small', 'large', 'circle'];
-
-    for (let i = 0; i < confettiCount; i++) {
-        const confetto = document.createElement('div');
-        confetto.classList.add('confetto');
-        
-        const randomColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-        const randomAnimation = fallAnimations[Math.floor(Math.random() * fallAnimations.length)];
-        const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
-        
-        if (randomShape) {
-            confetto.classList.add(randomShape);
-        }
-
-        confetto.style.backgroundColor = randomColor;
-        confetto.style.left = Math.random() * 100 + 'vw'; 
-        confetto.style.animationName = randomAnimation;
-        
-        const duration = (Math.random() * 6) + 4; 
-        confetto.style.animationDuration = duration + 's';
-        
-        confetto.style.animationDelay = (Math.random() * 0.5) + 's'; 
-
-        confettiContainer.appendChild(confetto);
-
-        confetto.addEventListener('animationend', () => {
-            confetto.remove();
-        });
+@media (min-width: 600px) {
+    body {
+        font-size: 16px; 
     }
 }
 
-
-function openGift() {
-    const giftBox = document.getElementById('giftBox');
-    const cakeContainer = document.getElementById('cakeContainer');
-    const congratsMessage = document.getElementById('congrats-message');
-    
-    if (giftBox.classList.contains('open')) {
-        return; 
-    }
-
-    giftBox.classList.add('open');
-    congratsMessage.innerText = 'Lihat Kuemu! Sekarang Tiup Lilinnya 🌬️';
-
-    setTimeout(() => {
-        // PERBAIKAN UTAMA: Hapus 'hidden' dan tambahkan 'visible'
-        cakeContainer.classList.remove('hidden');
-        cakeContainer.classList.add('visible'); 
-        
-        // PICU KONFETI BERTURUT-TURUT
-        generateConfetti();
-        setTimeout(generateConfetti, 100);
-        setTimeout(generateConfetti, 200);
-
-    }, 1000); 
+/* --- Utility Classes --- */
+.hidden { 
+    display: none !important; 
 }
 
-function blowOut(candleElement) {
-    if (candleElement.dataset.lit === 'true') {
-        candleElement.dataset.lit = 'false';
-        const flame = candleElement.querySelector('.flame');
-        if (flame) {
-            flame.style.opacity = '0';
-        }
-        
-        blownOutCount++;
-        checkAllBlownOut();
-    }
+/* --- Tampilan Pesan Ucapan --- */
+.message-container {
+    position: absolute;
+    top: 20%; /* Pindahkan ke atas sedikit agar tidak menimpa kado/kue */
+    left: 50%;
+    transform: translateX(-50%); 
+    text-align: center;
+    z-index: 100;
+    transition: opacity 0.5s;
 }
 
-function checkAllBlownOut() {
-    const congratsMessage = document.getElementById('congrats-message');
-
-    if (blownOutCount === totalCandles) {
-        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
-        
-        // Lilin menghilang, kue tetap ada
-        if (candleSet) {
-            candleSet.style.opacity = '0'; 
-        }
-
-        // PICU KONFETI BERKALI-KALI
-        let burstCount = 0;
-        const burstInterval = setInterval(() => {
-            generateConfetti();
-            burstCount++;
-            if (burstCount >= 5) {
-                clearInterval(burstInterval);
-            }
-        }, 300); 
-
-    } else {
-        congratsMessage.innerText = `Masih ada ${totalCandles - blownOutCount} lilin lagi!`;
-    }
+#congrats-message {
+    font-size: 2.2em; 
+    color: #ff69b4;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1); 
+    white-space: nowrap;
 }
+
+/* --- KOTAK KADO --- */
+.gift-box {
+    position: relative;
+    width: 250px; 
+    height: 180px; 
+    cursor: pointer;
+    perspective: 1000px; 
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-in-out;
+    margin-top: 50px; /* Jarak dari pesan */
+    z-index: 10;
+}
+.box-bottom { width: 100%; height: 100%; background-color: #cc3333; position: absolute; bottom: 0; border-radius: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.3); }
+.box-top { width: 105%; height: 35px; background-color: #e63946; position: absolute; top: -35px; left: -2.5%; border-radius: 5px; transform-origin: bottom center; transition: transform 0.5s ease-in-out; z-index: 3; box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
+.ribbon-v { width: 30px; height: 100%; background-color: #ffd700; position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; }
+.ribbon-h { width: 100%; height: 30px; background-color: #ffd700; position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; }
+.ribbon-bow { position: absolute; width: 90px; height: 50px; top: -60px; left: 50%; transform: translateX(-50%); z-index: 4; transition: opacity 0.3s ease-in-out; }
+.ribbon-bow::before { content: ''; position: absolute; width: 40px; height: 40px; background-color: #ffd700; border-radius: 60% 30% 50% 50% / 50% 50% 50% 50%; left: 0; top: 0; transform: rotate(30deg); transform-origin: bottom right; box-shadow: inset -3px 3px 5px rgba(0,0,0,0.15); }
+.ribbon-bow::after { content: ''; position: absolute; width: 40px; height: 40px; background-color: #ffd700; border-radius: 30% 60% 50% 50% / 50% 50% 50% 50%; right: 0; top: 0; transform: rotate(-30deg); transform-origin: bottom left; box-shadow: inset 3px 3px 5px rgba(0,0,0,0.15); }
+.ribbon-bow .knot { position: absolute; width: 15px; height: 15px; background-color: #ffaa00; border-radius: 50%; top: 15px; left: 50%; transform: translateX(-50%); z-index: 5; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+.click-instruction { position: absolute; bottom: -40px; width: 100%; text-align: center; color: #555; font-size: 0.9em; opacity: 1; transition: opacity 0.3s; left: 50%; transform: translate(-50%, 0); }
+.gift-box.open { transform: translateY(-20px); }
+.gift-box.open .box-top { transform: rotateX(-90deg) translateY(-35px); }
+.gift-box.open .ribbon-bow, .gift-box.open .ribbon-h, .gift-box.open .click-instruction { opacity: 0; transition: opacity 0.3s; }
+
+/* --- Desain Kue (DIJAMIN MUNCUL) --- */
+.cake-container {
+    position: absolute; 
+    width: 250px; 
+    /* Posisikan persis di tengah layar */
+    top: 50%; 
+    left: 50%;
+    /* Atur transform agar transisi muncul berjalan */
+    transform: translate(-50%, 50px); 
+    opacity: 0; 
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    z-index: 1; 
+}
+
+/* Kelas untuk memicu tampilan kue dari JS */
+.cake-container.visible { 
+    opacity: 1; 
+    transform: translate(-50%, 0); /* Posisi akhir: tengah-tengah */
+}
+
+/* Elemen Kue & Lilin */
+.plate { width: 300px; height: 12px; background-color: #ccc; border-radius: 50%; position: absolute; bottom: -15px; left: -25px; z-index: 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); }
+.cake-layer { width: 100%; height: 50px; position: relative; border-radius: 5px; margin-bottom: 6px; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1); } 
+.layer-bottom { background-color: #8b4513; }
+.layer-middle { background-color: #f0e68c; }
+.layer-top { background-color: #ffc0cb; height: 25px; border-radius: 5px 5px 0 0;} 
+.candle-set { 
+    transition: opacity 1s ease-out; 
+    display: flex; 
+    justify-content: space-around; 
+    width: 180px; 
+    position: absolute; 
+    top: -25px; 
+    left: 35px; 
+    z-index: 2; 
+} 
+.candle { width: 10px; height: 40px; background-color: #ffffff; border: 1px solid #000000; border-radius: 2px; position: relative; } 
+.wick { width: 2px; height: 7px; background-color: #222; position: absolute; top: -7px; left: 4px; }
+.flame { transition: opacity 0.3s; width: 8px; height: 18px; background: linear-gradient(to top, orange, yellow); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; position: absolute; top: -20px; left: 1px; filter: blur(0.5px); cursor: pointer; box-shadow: 0 0 5px 2px rgba(255, 165, 0, 0.7); animation: flicker 0.2s infinite alternate; }
+.flame.out { opacity: 0; box-shadow: none; animation: none; }
+@keyframes flicker { from { transform: scale(1, 1); } to { transform: scale(1.05, 0.95); } }
+
+
+/* --- KONFETI MERIAH (Ditingkatkan) --- */
+#confetti-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1000; overflow: hidden;
+}
+.confetto {
+    position: absolute; width: 8px; height: 15px; background-color: transparent;
+    opacity: 0.9; will-change: transform, opacity;
+    animation: confetti-wobble 2s ease-in-out infinite alternate;
+}
+@keyframes confetti-fall-normal { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; } }
+@keyframes confetti-fall-slow { 0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg) translateX(50px); opacity: 0.3; } }
+@keyframes confetti-fall-fast { 0% { transform: translateY(-100vh) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(180deg) translateX(-30px); opacity: 0.6; } }
+@keyframes confetti-wobble { 0%, 100% { transform: translateX(0) scaleX(1); } 50% { transform: translateX(10px) scaleX(0.5); } }
+.confetto.small { width: 5px; height: 10px; border-radius: 2px; }
+.confetto.large { width: 10px; height: 20px; border-radius: 5px; }
+.confetto.circle { border-radius: 50%; width: 10px; height: 10px; }
