@@ -1,220 +1,211 @@
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    background-color: #f7f7f7;
-    overflow: hidden; 
-    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f7f7f7;
+    overflow: hidden; 
+    font-family: sans-serif;
 }
 
-/* --- Tampilan Pesan Ucapan (Tidak Berubah) --- */
+/* --- Tampilan Pesan Ucapan --- */
 .message-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    pointer-events: none;
-    text-align: center;
-    transition: opacity 0.5s;
-    z-index: 100;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    text-align: center;
+    transition: opacity 0.5s;
+    z-index: 100;
 }
 
 #congrats-message {
-    font-size: 2.5rem;
-    color: #ff69b4;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    font-size: 2.5rem;
+    color: #ff69b4;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
 .float-up {
-    animation: floatUp 5s forwards;
+    animation: floatUp 5s forwards;
 }
 
 @keyframes floatUp {
-    0% { transform: translate(-50%, 0); opacity: 1; }
-    100% { transform: translate(-50%, -400px); opacity: 0; }
+    0% { transform: translate(-50%, 0); opacity: 1; }
+    100% { transform: translate(-50%, -400px); opacity: 0; }
 }
 
-/* --- KOTAK KADO SIMETRIS (LURUS) --- */
+/* --- KOTAK KADO SIMETRIS --- */
 .gift-box {
-    position: relative;
-    width: 200px;
-    height: 150px;
-    cursor: pointer;
-    perspective: 1000px; 
-    transform-style: preserve-3d;
-    transition: transform 0.5s ease-in-out;
-    margin-top: -50px; 
-    
-    /* PENTING: Rotasi 3D dihilangkan, membuatnya simetris */
-    transform: none; 
-    
-    z-index: 10;
+    position: relative;
+    width: 200px;
+    height: 150px;
+    cursor: pointer;
+    perspective: 1000px; 
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-in-out;
+    margin-top: -50px; 
+    transform: none; 
+    z-index: 10;
 }
 
 /* Bagian Bawah Kotak (Body) */
 .box-bottom {
-    width: 100%;
-    height: 100%;
-    background-color: #cc3333; /* Merah gelap */
-    position: absolute;
-    bottom: 0;
-    border-radius: 5px;
-    /* Memberi bayangan agar tetap terasa ada kedalaman */
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.3); 
+    width: 100%;
+    height: 100%;
+    background-color: #cc3333; /* Merah gelap */
+    position: absolute;
+    bottom: 0;
+    border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3); 
 }
 
 /* Tutup Kotak */
 .box-top {
-    width: 105%; 
-    height: 30px; 
-    background-color: #e63946; /* Merah cerah untuk tutup */
-    position: absolute;
-    top: -30px; 
-    left: -2.5%; 
-    border-radius: 5px;
-    transform-origin: bottom center;
-    transition: transform 0.5s ease-in-out; 
-    z-index: 3;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2); 
+    width: 105%; 
+    height: 30px; 
+    background-color: #e63946; /* Merah cerah untuk tutup */
+    position: absolute;
+    top: -30px; 
+    left: -2.5%; 
+    border-radius: 5px;
+    transform-origin: bottom center;
+    transition: transform 0.5s ease-in-out; 
+    z-index: 3;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2); 
 }
 
-/* Pita Vertikal dan Horizontal (Warna Emas) */
-.ribbon-v { 
-    width: 25px; 
-    height: 100%; 
-    background-color: #ffd700; 
-    position: absolute; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    z-index: 2; 
+/* Pita Vertikal dan Horizontal */
+.ribbon-v { 
+    width: 25px; 
+    height: 100%; 
+    background-color: #ffd700; 
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 2; 
 }
-.ribbon-h { 
-    width: 100%; 
-    height: 25px; 
-    background-color: #ffd700; 
-    position: absolute; 
-    top: 50%; 
-    transform: translateY(-50%); 
-    z-index: 2; 
+.ribbon-h { 
+    width: 100%; 
+    height: 25px; 
+    background-color: #ffd700; 
+    position: absolute; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    z-index: 2; 
 }
 
 /* --- PITA ATAS (BOW) ELEGAN --- */
 .ribbon-bow {
-    position: absolute;
-    width: 80px; 
-    height: 40px; 
-    /* POSISI: Tepat di tengah TUTUP KOTAK */
-    top: -50px; 
-    left: 50%;
-    transform: translateX(-50%); 
-    z-index: 4;
-    transition: opacity 0.3s ease-in-out;
+    position: absolute;
+    width: 80px; 
+    height: 40px; 
+    top: -50px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    z-index: 4;
+    transition: opacity 0.3s ease-in-out;
 }
 
 /* Loop Kiri Pita */
 .ribbon-bow::before {
-    content: '';
-    position: absolute;
-    width: 40px; 
-    height: 40px; 
-    background-color: #ffd700; 
-    border-radius: 60% 30% 50% 50% / 50% 50% 50% 50%; 
-    left: 0;
-    top: 0;
-    transform: rotate(30deg); 
-    transform-origin: bottom right;
-    box-shadow: inset -3px 3px 5px rgba(0,0,0,0.15); 
+    content: '';
+    position: absolute;
+    width: 40px; 
+    height: 40px; 
+    background-color: #ffd700; 
+    border-radius: 60% 30% 50% 50% / 50% 50% 50% 50%; 
+    left: 0;
+    top: 0;
+    transform: rotate(30deg); 
+    transform-origin: bottom right;
+    box-shadow: inset -3px 3px 5px rgba(0,0,0,0.15); 
 }
 
 /* Loop Kanan Pita */
 .ribbon-bow::after {
-    content: '';
-    position: absolute;
-    width: 40px;
-    height: 40px; 
-    background-color: #ffd700; 
-    border-radius: 30% 60% 50% 50% / 50% 50% 50% 50%; 
-    right: 0;
-    top: 0;
-    transform: rotate(-30deg); 
-    transform-origin: bottom left;
-    box-shadow: inset 3px 3px 5px rgba(0,0,0,0.15); 
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px; 
+    background-color: #ffd700; 
+    border-radius: 30% 60% 50% 50% / 50% 50% 50% 50%; 
+    right: 0;
+    top: 0;
+    transform: rotate(-30deg); 
+    transform-origin: bottom left;
+    box-shadow: inset 3px 3px 5px rgba(0,0,0,0.15); 
 }
 
-/* Simpul Tengah (dari div .knot di HTML) */
+/* Simpul Tengah */
 .ribbon-bow .knot {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background-color: #ffaa00; 
-    border-radius: 50%;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #ffaa00; 
+    border-radius: 50%;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
 .click-instruction {
-    position: absolute; bottom: -40px; width: 100%; text-align: center; 
-    color: #555; font-size: 0.9em; opacity: 1; transition: opacity 0.3s;
-    left: 50%; 
-    transform: translate(-50%, 0);
+    position: absolute; bottom: -40px; width: 100%; text-align: center; 
+    color: #555; font-size: 0.9em; opacity: 1; transition: opacity 0.3s;
+    left: 50%; 
+    transform: translate(-50%, 0);
 }
 
 /* Animasi saat kotak terbuka */
 .gift-box.open {
-    /* PENTING: Rotasi 3D dihilangkan dari animasi pembuka */
-    transform: translateY(-20px);
+    transform: translateY(-20px);
 }
 .gift-box.open .box-top {
-    /* Putar tutup ke belakang */
-    transform: rotateX(-90deg) translateY(-30px); 
+    transform: rotateX(-90deg) translateY(-30px); 
 }
-.gift-box.open .ribbon-bow, 
-.gift-box.open .ribbon-h {
-    opacity: 0; 
-    transition: opacity 0.3s;
-}
+.gift-box.open .ribbon-bow, 
+.gift-box.open .ribbon-h,
 .gift-box.open .click-instruction {
-    opacity: 0;
+    opacity: 0; 
+    transition: opacity 0.3s;
 }
 
 
 /* --- Desain Kue (CSS-Only) --- */
 .hidden {
-    display: none !important; 
+    display: none !important; 
 }
 
 .cake-container {
-    position: absolute; 
-    width: 200px;
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, 50px); 
-    opacity: 0; 
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    z-index: 1; 
+    position: absolute; 
+    width: 200px;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, 50px); 
+    opacity: 0; 
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    z-index: 1; 
 }
 
 .cake-container.visible {
-    opacity: 1;
-    transform: translate(-50%, 0); 
+    opacity: 1;
+    transform: translate(-50%, 0); 
 }
 
 .plate {
-    width: 250px; height: 10px; background-color: #ccc; border-radius: 50%;
-    position: absolute; bottom: -15px; left: -25px; z-index: 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    width: 250px; height: 10px; background-color: #ccc; border-radius: 50%;
+    position: absolute; bottom: -15px; left: -25px; z-index: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .cake-layer {
-    width: 100%; height: 40px; position: relative; border-radius: 5px; margin-bottom: 5px;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    width: 100%; height: 40px; position: relative; border-radius: 5px; margin-bottom: 5px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 .layer-bottom { background-color: #8b4513; }
@@ -223,42 +214,63 @@ body {
 
 /* Lilin */
 .candle-set {
-    display: flex; justify-content: space-around; width: 150px;
-    position: absolute; top: -20px; left: 25px; z-index: 2; /* POSISI DIPERBAIKI */
+    display: flex; justify-content: space-around; width: 150px;
+    position: absolute; top: -20px; left: 25px; z-index: 2; /* Posisi Lilin yang Benar */
 }
 
 .candle {
-    width: 8px; height: 30px; background-color: #ffffff;
-    border: 1px solid #000000; border-radius: 2px; position: relative;
+    width: 8px; height: 30px; background-color: #ffffff;
+    border: 1px solid #000000; border-radius: 2px; position: relative;
 }
 
 .wick {
-    width: 2px; height: 5px; background-color: #222;
-    position: absolute; top: -5px; left: 3px;
+    width: 2px; height: 5px; background-color: #222;
+    position: absolute; top: -5px; left: 3px;
 }
 
 .flame {
-    width: 6px; height: 15px; background: linear-gradient(to top, orange, yellow);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    position: absolute; top: -16px; left: 1px; filter: blur(0.5px);
-    cursor: pointer; box-shadow: 0 0 5px 2px rgba(255, 165, 0, 0.7);
-    animation: flicker 0.2s infinite alternate;
+    width: 6px; height: 15px; background: linear-gradient(to top, orange, yellow);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute; top: -16px; left: 1px; filter: blur(0.5px);
+    cursor: pointer; box-shadow: 0 0 5px 2px rgba(255, 165, 0, 0.7);
+    animation: flicker 0.2s infinite alternate;
 }
 
-.flame.out { opacity: 0; box-shadow: none; }
+.flame.out { 
+    opacity: 0; 
+    box-shadow: none; 
+    animation: none; /* Hentikan flicker saat padam */
+}
 
 @keyframes flicker {
-    from { transform: scale(1, 1); }
-    to { transform: scale(1.05, 0.95); }
+    from { transform: scale(1, 1); }
+    to { transform: scale(1.05, 0.95); }
 }
 
 /* --- Animasi Konfeti (CSS-Only) --- */
 #confetti-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 50; display: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 50; display: none;
+    overflow: hidden; /* Tambahkan ini agar confetti tidak menimbulkan scrollbar */
 }
 
 .confetto {
-    position: absolute; width: 10px; height: 10px; background-color: transparent;
-    border-radius: 50%; opacity: 0;
+    position: absolute; 
+    width: 10px; 
+    height: 10px; 
+    background-color: transparent;
+    border-radius: 50%; 
+    opacity: 0; /* Konfeti akan menjadi terlihat saat animasi 'fall' dimulai */
+} 
+
+/* Keyframe untuk Konfeti (Penting agar animasi jatuh berjalan) */
+@keyframes fall {
+    from { 
+        opacity: 0.8; 
+    }
+    to {
+        /* Menggunakan translate3d untuk akselerasi hardware saat jatuh */
+        transform: translate3d(0, 110vh, 0) rotate(720deg); 
+        opacity: 0.5;
+    }
 }
