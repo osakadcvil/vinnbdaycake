@@ -84,8 +84,8 @@ body {
     opacity: 0; 
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     z-index: 1; 
-    transform-style: preserve-3d; /* Penting untuk 3D slice */
-    perspective: 800px; /* Perspektif untuk kue agar potongan terlihat 3D */
+    transform-style: preserve-3d; 
+    perspective: 800px;
 }
 
 .cake-container.visible { opacity: 1; transform: translate(-50%, 0); }
@@ -99,95 +99,62 @@ body {
 .layer-top { background-color: #ffc0cb; height: 20px; border-radius: 5px 5px 0 0;}
 
 
-/* --- Gaya Potongan Kue BARU dan LEBIH REALISTIS --- */
+/* --- Gaya Potongan Kue (Disederhanakan untuk Stabilitas) --- */
 .cake-slice {
     position: absolute;
-    width: 80px; /* Lebar keseluruhan potongan (alas segitiga) */
-    height: 70px; /* Tinggi total kue (20+40+5) */
-    left: 50%; /* Posisikan di tengah agar mudah menggeser */
+    width: 60px; /* Lebar dasar potongan */
+    height: 70px; /* Tinggi total kue */
+    left: 100%; /* Mulai di luar area kue */
     top: 50%;
-    transform: translate(-50%, -50%) rotateY(0deg) translateZ(0); /* Awalnya tersembunyi/menempel */
+    /* Posisi awal: Geser ke kiri agar menempel ke sisi kue, lalu turun */
+    transform: translate(-100px, -50%) rotate(0deg); 
     transform-style: preserve-3d;
-    transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s; /* Animasi lebih bouncy */
+    transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s; 
     z-index: 5;
     opacity: 0;
-    perspective: 500px;
 }
 
 .cake-slice.cut {
     opacity: 1;
-    /* Pindahkan ke depan, sedikit ke samping, dan putar */
-    transform: translate(-50%, -50%) translateX(100px) translateY(-50px) translateZ(50px) rotateY(-45deg) rotateX(10deg);
+    /* Posisi akhir: Geser ke kanan (keluar) dan putar */
+    transform: translate(30px, -50%) rotate(15deg); 
 }
 
-/* Sisi Kiri Potongan Segitiga */
-.slice-left {
+/* Base: Sisi yang terpotong (lapisan vertikal) */
+.slice-base {
     position: absolute;
-    width: 70px; /* Harus sesuai tinggi total */
-    height: 70px; /* Panjang sisi segitiga */
-    background: linear-gradient(to bottom, #ffc0cb 0%, #ffc0cb 28.5%, #f0e68c 28.5%, #f0e68c 85.7%, #8b4513 85.7%, #8b4513 100%);
-    transform: rotateY(90deg) translateX(0px) rotateX(10deg) translateZ(-40px); /* Atur posisi dan rotasi untuk membentuk sisi segitiga */
-    transform-origin: 0 0;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); /* Ini perlu disesuaikan dengan shape segitiga */
-    box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
+    width: 100%;
+    height: 100%;
+    /* Warna lapisan terpotong (vertical gradient) */
+    background: linear-gradient(to bottom, 
+        #ffc0cb 0% 30%, 
+        #f0e68c 30% 65%, 
+        #8b4513 65% 100%);
+    
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    
+    /* Putar 90 derajat di sumbu Y dan Z untuk ilusi 3D */
+    transform: rotateY(90deg) translateZ(30px) rotateZ(5deg);
+    transform-origin: left center;
 }
 
-/* Sisi Kanan Potongan Segitiga */
-.slice-right {
+/* Sisi: Bagian atas/icing potongan */
+.slice-side {
     position: absolute;
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(to bottom, #ffc0cb 0%, #ffc0cb 28.5%, #f0e68c 28.5%, #f0e68c 85.7%, #8b4513 85.7%, #8b4513 100%);
-    transform: rotateY(-90deg) translateX(0px) rotateX(10deg) translateZ(-40px); /* Mirip dengan kiri, tapi rotasi Y berbeda */
-    transform-origin: 100% 0;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); /* Ini perlu disesuaikan dengan shape segitiga */
-    box-shadow: 2px 0px 5px rgba(0,0,0,0.2);
+    width: 60px;
+    height: 60px; /* Lebar potongan */
+    background-color: #ffc0cb; /* Warna Icing */
+    border-radius: 5px;
+    
+    /* Posisikan di atas slice-base */
+    transform: rotateX(90deg) translateZ(-35px) translateY(30px);
+    box-shadow: 0 5px 5px rgba(0,0,0,0.3);
+    /* Bentuk segitiga pada tampilan atas */
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
 }
 
-/* Sisi Icing Atas (miring) */
-.slice-top-icing {
-    position: absolute;
-    width: 80px; /* Lebar dasar segitiga */
-    height: 40px; /* Kedalaman irisan */
-    background-color: #ffc0cb; /* Icing color */
-    transform: rotateX(90deg) translateZ(-20px) translateY(-20px); /* Posisi di atas, dan miring */
-    transform-origin: top left;
-    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%); /* Bentuk trapesium untuk dasar atas */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
 
-/* Bagian Kue yang Dilihat dari Atas setelah dipotong */
-.slice-top-cake {
-    position: absolute;
-    width: 80px; /* Lebar dasar segitiga */
-    height: 40px; /* Kedalaman irisan */
-    background-color: #ffc0cb; /* Warna lapisan teratas */
-    transform: rotateX(90deg) translateZ(0px) translateY(-20px); /* Posisi di atas, tapi bagian kuenya */
-    transform-origin: top left;
-    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%); /* Bentuk trapesium untuk dasar atas */
-}
-
-.slice-middle-cake {
-    position: absolute;
-    width: 80px;
-    height: 40px; /* Ketinggian lapisan tengah */
-    background-color: #f0e68c; /* Warna lapisan tengah */
-    transform: rotateX(90deg) translateZ(20px) translateY(-20px); /* Di bawah top-cake */
-    transform-origin: top left;
-    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
-}
-
-.slice-bottom-cake {
-    position: absolute;
-    width: 80px;
-    height: 40px; /* Ketinggian lapisan bawah */
-    background-color: #8b4513; /* Warna lapisan bawah */
-    transform: rotateX(90deg) translateZ(60px) translateY(-20px); /* Di bawah middle-cake */
-    transform-origin: top left;
-    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
-}
-
-/* Lilin */
+/* Lilin dan Konfeti CSS tidak berubah... */
 .candle-set { display: flex; justify-content: space-around; width: 150px; position: absolute; top: -20px; left: 25px; z-index: 2; }
 .candle { width: 8px; height: 30px; background-color: #ffffff; border: 1px solid #000000; border-radius: 2px; position: relative; }
 .wick { width: 2px; height: 5px; background-color: #222; position: absolute; top: -5px; left: 3px; }
@@ -200,8 +167,6 @@ body {
 }
 .flame.out { opacity: 0; box-shadow: none; animation: none; }
 @keyframes flicker { from { transform: scale(1, 1); } to { transform: scale(1.05, 0.95); } }
-
-/* --- Animasi Konfeti --- */
 #confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; display: none; overflow: hidden; }
 .confetto { position: absolute; width: 10px; height: 10px; background-color: transparent; border-radius: 50%; opacity: 0; } 
 @keyframes fall {
