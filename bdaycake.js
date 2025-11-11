@@ -15,7 +15,7 @@ const confettiColors = [
 // FUNGSI 1: Menghasilkan Konfeti dan Balon (Efek Semburan/Burst)
 function generateConfetti() {
     const confettiCount = 100;
-    const balloonCount = 20; // Rasio Balon:Konfeti = 1:5
+    const balloonCount = 20;
 
     // Buat array yang berisi jenis item yang akan dibuat
     const itemsToGenerate = [
@@ -23,33 +23,33 @@ function generateConfetti() {
         ...Array(balloonCount).fill('balloon')
     ];
     
-    // Tentukan titik asal semburan (di tengah atas layar)
+    // PERBAIKAN: Tentukan titik asal semburan di layar (30% dari atas) untuk visibilitas instan.
+    const originY = window.innerHeight * 0.3; 
     const originX = window.innerWidth / 2;
-    const originY = 0; 
 
     itemsToGenerate.forEach(type => {
         const item = document.createElement('div');
-        // Tentukan class: 'confetto' atau 'balloon'
         item.classList.add(type === 'confetti' ? 'confetto' : 'balloon');
         
         const randomColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
         item.style.backgroundColor = randomColor;
 
         // Tentukan posisi X akhir secara acak (spread lebar untuk efek semburan)
-        const xEnd = (Math.random() * window.innerWidth * 1.5) - (window.innerWidth * 0.75); // Drift horizontal dari -75vw hingga +75vw
+        const xEnd = (Math.random() * window.innerWidth * 1.5) - (window.innerWidth * 0.75);
         
         // Tentukan rotasi akhir secara acak
-        const rotEnd = Math.random() * 720; // 720 derajat putaran
+        const rotEnd = Math.random() * 720;
         
         // Atur custom properties CSS untuk animasi 'confetti-burst'
         item.style.setProperty('--x-end', `${xEnd}px`);
         item.style.setProperty('--rot-end', `${rotEnd}deg`);
 
-        // Posisi awal (Di tengah atas, sedikit di luar viewport)
+        // Posisi awal (TEPAT di titik ledakan yang terlihat)
         item.style.left = `${originX + (Math.random() * 100 - 50)}px`;
-        item.style.top = `${originY - 50}px`; 
+        item.style.top = `${originY}px`; 
         
-        const fallDuration = (Math.random() * 3) + 6; // Durasi total jatuh (6s hingga 9s)
+        // PERBAIKAN: Kurangi durasi total untuk efek yang lebih cepat
+        const fallDuration = (Math.random() * 3) + 4; // Durasi total jatuh (4s hingga 7s)
         const wobbleDuration = (Math.random() * 0.5) + 2; 
 
         // Terapkan animasi semburan baru
@@ -76,7 +76,7 @@ function openGift() {
 
     // 1. Kado terbuka
     giftBox.classList.add('open');
-    congratsMessage.innerText = 'Lihat Kuemu! Sekarang Klik Lilinnya 🖱️';
+    congratsMessage.innerText = 'Lihat Kuemu!🎂 Sekarang Klik Lilinnya!🕯️';
 
     setTimeout(() => {
         // 2. Kado menghilang
@@ -111,7 +111,7 @@ function blowOut(candleElement) {
 let confettiTriggered = false; 
 function checkAllBlownOut() {
     if (blownOutCount === totalCandles) {
-        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINN! 🥳🎉';
+        congratsMessage.innerText = 'SELAMAT ULANG TAHUN, VINTUTT🎂🥳🎉';
         
         // PICU SEMBURAN KONFETI & BALON INSTAN
         if (!confettiTriggered) {
