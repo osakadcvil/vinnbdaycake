@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selamat Ulang Tahun, Vinn!</title>
-    <link rel="stylesheet" href="bdaycake.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun, Vinn!</title>
+    <link rel="stylesheet" href="bdaycake.css">
 </head>
 <body>
 
-    <div class="message-container">
-        <h1 id="congrats-message">SELAMAT ULANG TAHUN ADEKKK🎂🥳🎉</h1>
-    </div>
+    <div class="message-container">
+        <h1 id="congrats-message">SELAMAT ULANG TAHUN ADEKKK🎂🥳🎉</h1>
+    </div>
 
-    <div class="gift-box" id="giftBox" onclick="openGift()"> 
-        <div class="box-top"></div>
-        <div class="box-bottom"></div>
-        <div class="ribbon-v"></div>
-        <div class="ribbon-h"></div>
-        <div class="ribbon-bow">
-            <div class="knot"></div> 
-        </div> 
-        <p class="click-instruction">Klik kotaknya!</p>
-    </div>
+    <div class="gift-box" id="giftBox" onclick="openGift()"> 
+        <div class="box-top"></div>
+        <div class="box-bottom"></div>
+        <div class="ribbon-v"></div>
+        <div class="ribbon-h"></div>
+        <div class="ribbon-bow">
+            <div class="knot"></div> 
+        </div> 
+        <p class="click-instruction">Klik kotaknya!</p>
+    </div>
 
-    <div class="cake-container hidden" id="cakeContainer">
-        
-        <div class="candle-set">
-            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
-            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
-            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
-            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
-            <div class="candle" data-lit="true"><div class="wick"></div><div class="flame" onclick="blowOut(this)"></div></div>
-        </div>
-        
-        <div class="cake-layer layer-top"></div>
-        <div class="cake-layer layer-middle"></div>
-        <div class="cake-layer layer-bottom"></div>
-        <div class="plate"></div>
-    </div>
+    <div class="cake-container hidden" id="cakeContainer">
+        
+        <div class="candle-set">
+                        <div class="candle" data-lit="true" data-id="1"><div class="wick"></div><div class="flame" onclick="blowOut(this.parentNode)"></div></div>
+            <div class="candle" data-lit="true" data-id="2"><div class="wick"></div><div class="flame" onclick="blowOut(this.parentNode)"></div></div>
+            <div class="candle" data-lit="true" data-id="3"><div class="wick"></div><div class="flame" onclick="blowOut(this.parentNode)"></div></div>
+            <div class="candle" data-lit="true" data-id="4"><div class="wick"></div><div class="flame" onclick="blowOut(this.parentNode)"></div></div>
+            <div class="candle" data-lit="true" data-id="5"><div class="wick"></div><div class="flame" onclick="blowOut(this.parentNode)"></div></div>
+        </div>
+        
+        <div class="cake-layer layer-top"></div>
+        <div class="cake-layer layer-middle"></div>
+        <div class="cake-layer layer-bottom"></div>
+        <div class="plate"></div>
+    </div>
 
-    <div id="confetti-container"></div>
+    <div id="confetti-container"></div>
 
-    <script src="bdaycake.js"></script>
+        <script src="bdaycake.js"></script>
 </body>
 </html>
