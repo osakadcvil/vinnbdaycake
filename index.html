@@ -3,30 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Constellation Cake</title>
+    <title>Magical Music Box Cake</title>
     <link rel="stylesheet" href="bdaycake.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="cake-title">Constellation Cake</h1>
+        
+        <h1 class="box-title">Kotak Musik Keajaiban</h1>
 
-        <div class="cake-container" id="constellationCake">
-            <div class="plate"></div>
-            <div class="cake">
-                <div class="layer layer-bottom"></div>
-                <div class="layer layer-middle"></div>
-                <div class="layer layer-top"></div>
+        <div class="music-box-container">
+            <div class="music-box" id="musicBox">
                 
-                <div class="star-candle" data-order="1" id="star1"></div> <div class="star-candle" data-order="2" id="star2"></div> 
-                <div class="star-candle" data-order="3" id="star3"></div> 
-                <div class="star-candle" data-order="4" id="star4"></div> 
-                <div class="star-candle" data-order="5" id="star5"></div> 
-                <div class="star-candle" data-order="6" id="star6"></div> 
-                <div class="star-candle" data-order="7" id="star7"></div> <div class="message-area" id="constellationMessage">
-                    <p>🎉 SELAMAT ULANG TAHUN VINNTUT! 🎉</p>
+                <div class="box-lid" id="boxLid">
+                    <div class="golden-key-button" id="goldenKey"></div>
+                </div>
+
+                <div class="box-interior">
+                    
+                    <div class="figure-platform">
+                        <div class="rotating-figure" id="rotatingFigure">
+                            🎼🎶
+                        </div>
+                    </div>
+                    
+                    <div class="hidden-message" id="hiddenMessage">
+                        <p>Selamat Ulang Tahun, Vinn!</p>
+                        <p>Sebuah kejutan manis menantimu di sini.</p>
+                        <button id="closeBox">Tutup Kotak Musik</button>
+                    </div>
                 </div>
             </div>
-            
         </div>
     </div>
 
