@@ -113,3 +113,4 @@ function checkAllBlownOut() {
         congratsMessage.innerText = `Masih ada ${totalCandles - blownOutCount} lilin lagi!`;
     }
 }
+
