@@ -84,8 +84,8 @@ body {
     opacity: 0; 
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     z-index: 1; 
-    /* Penting untuk 3D slice */
-    transform-style: preserve-3d;
+    transform-style: preserve-3d; /* Penting untuk 3D slice */
+    perspective: 800px; /* Perspektif untuk kue agar potongan terlihat 3D */
 }
 
 .cake-container.visible { opacity: 1; transform: translate(-50%, 0); }
@@ -98,66 +98,96 @@ body {
 .layer-middle { background-color: #f0e68c; }
 .layer-top { background-color: #ffc0cb; height: 20px; border-radius: 5px 5px 0 0;}
 
-/* ILUSI POTONGAN YANG HILANG */
-.cake-container.cut .layer-top::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 25%; /* Lebar potongan yang hilang (sesuaikan jika perlu) */
-    height: 100%;
-    background-color: #f7f7f7; /* WAJIB disamakan dengan warna BODY */
-    z-index: 4;
-    /* Membuat bentuk potongan segitiga (sebenarnya menghilangkan bagian kue) */
-    clip-path: polygon(100% 0%, 100% 100%, 75% 100%, 75% 0%); 
-}
 
-/* --- Gaya Potongan Kue Baru --- */
+/* --- Gaya Potongan Kue BARU dan LEBIH REALISTIS --- */
 .cake-slice {
     position: absolute;
-    width: 50px; /* Lebar potongan */
-    height: 70px; /* Ketinggian potongan (gabungan 3 lapisan) */
-    left: 70%; /* Posisikan di sisi kue */
+    width: 80px; /* Lebar keseluruhan potongan (alas segitiga) */
+    height: 70px; /* Tinggi total kue (20+40+5) */
+    left: 50%; /* Posisikan di tengah agar mudah menggeser */
     top: 50%;
-    transform: rotateY(0deg) translateZ(0); /* Posisi awal menempel di kue */
+    transform: translate(-50%, -50%) rotateY(0deg) translateZ(0); /* Awalnya tersembunyi/menempel */
     transform-style: preserve-3d;
-    transition: transform 1s ease-out, opacity 0.5s;
+    transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s; /* Animasi lebih bouncy */
     z-index: 5;
     opacity: 0;
+    perspective: 500px;
 }
 
 .cake-slice.cut {
     opacity: 1;
-    /* Pindahkan potongan ke luar dan putar */
-    transform: translateX(100px) translateY(-50px) rotateY(-30deg) rotateZ(5deg);
+    /* Pindahkan ke depan, sedikit ke samping, dan putar */
+    transform: translate(-50%, -50%) translateX(100px) translateY(-50px) translateZ(50px) rotateY(-45deg) rotateX(10deg);
 }
 
-.slice-side {
-    /* Sisi yang terlihat saat dipotong (lapisan vertikal) */
-    width: 10px;
+/* Sisi Kiri Potongan Segitiga */
+.slice-left {
+    position: absolute;
+    width: 70px; /* Harus sesuai tinggi total */
+    height: 70px; /* Panjang sisi segitiga */
+    background: linear-gradient(to bottom, #ffc0cb 0%, #ffc0cb 28.5%, #f0e68c 28.5%, #f0e68c 85.7%, #8b4513 85.7%, #8b4513 100%);
+    transform: rotateY(90deg) translateX(0px) rotateX(10deg) translateZ(-40px); /* Atur posisi dan rotasi untuk membentuk sisi segitiga */
+    transform-origin: 0 0;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); /* Ini perlu disesuaikan dengan shape segitiga */
+    box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
+}
+
+/* Sisi Kanan Potongan Segitiga */
+.slice-right {
+    position: absolute;
+    width: 70px;
     height: 70px;
-    background: linear-gradient(to bottom, #ffc0cb 25px, #f0e68c 25px, #f0e68c 55px, #8b4513 55px);
-    position: absolute;
-    /* Posisikan di tengah agar terlihat sebagai sisi potong */
-    transform: rotateY(90deg) translateZ(-5px); 
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    background: linear-gradient(to bottom, #ffc0cb 0%, #ffc0cb 28.5%, #f0e68c 28.5%, #f0e68c 85.7%, #8b4513 85.7%, #8b4513 100%);
+    transform: rotateY(-90deg) translateX(0px) rotateX(10deg) translateZ(-40px); /* Mirip dengan kiri, tapi rotasi Y berbeda */
+    transform-origin: 100% 0;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); /* Ini perlu disesuaikan dengan shape segitiga */
+    box-shadow: 2px 0px 5px rgba(0,0,0,0.2);
 }
 
-.slice-top {
-    /* Bagian atas potongan (icing) */
-    width: 50px;
-    height: 50px; 
-    background-color: #ffc0cb;
+/* Sisi Icing Atas (miring) */
+.slice-top-icing {
     position: absolute;
-    top: 0;
-    left: 0;
-    /* Bentuk potongan seperti segitiga */
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    transform: rotateX(90deg) translateZ(0);
+    width: 80px; /* Lebar dasar segitiga */
+    height: 40px; /* Kedalaman irisan */
+    background-color: #ffc0cb; /* Icing color */
+    transform: rotateX(90deg) translateZ(-20px) translateY(-20px); /* Posisi di atas, dan miring */
+    transform-origin: top left;
+    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%); /* Bentuk trapesium untuk dasar atas */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+/* Bagian Kue yang Dilihat dari Atas setelah dipotong */
+.slice-top-cake {
+    position: absolute;
+    width: 80px; /* Lebar dasar segitiga */
+    height: 40px; /* Kedalaman irisan */
+    background-color: #ffc0cb; /* Warna lapisan teratas */
+    transform: rotateX(90deg) translateZ(0px) translateY(-20px); /* Posisi di atas, tapi bagian kuenya */
+    transform-origin: top left;
+    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%); /* Bentuk trapesium untuk dasar atas */
+}
 
-/* --- Lilin & Api (Tidak ada perubahan) --- */
+.slice-middle-cake {
+    position: absolute;
+    width: 80px;
+    height: 40px; /* Ketinggian lapisan tengah */
+    background-color: #f0e68c; /* Warna lapisan tengah */
+    transform: rotateX(90deg) translateZ(20px) translateY(-20px); /* Di bawah top-cake */
+    transform-origin: top left;
+    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
+}
+
+.slice-bottom-cake {
+    position: absolute;
+    width: 80px;
+    height: 40px; /* Ketinggian lapisan bawah */
+    background-color: #8b4513; /* Warna lapisan bawah */
+    transform: rotateX(90deg) translateZ(60px) translateY(-20px); /* Di bawah middle-cake */
+    transform-origin: top left;
+    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
+}
+
+/* Lilin */
 .candle-set { display: flex; justify-content: space-around; width: 150px; position: absolute; top: -20px; left: 25px; z-index: 2; }
 .candle { width: 8px; height: 30px; background-color: #ffffff; border: 1px solid #000000; border-radius: 2px; position: relative; }
 .wick { width: 2px; height: 5px; background-color: #222; position: absolute; top: -5px; left: 3px; }
