@@ -10,16 +10,16 @@ body {
     font-family: sans-serif;
 }
 
-/* --- Tampilan Pesan Ucapan (Revisi Posisi) --- */
+/* --- Tampilan Pesan Ucapan --- */
 .message-container {
     position: absolute;
-    top: 30%; /* Pindahkan ke atas layar */
+    top: 30%; 
     left: 50%;
-    transform: translateX(-50%); /* Hanya transform X agar tetap di tengah */
+    transform: translateX(-50%); 
     opacity: 0;
     pointer-events: none;
     text-align: center;
-    transition: opacity 0.5s, top 0.5s; /* Tambahkan transisi top */
+    transition: opacity 0.5s, top 0.5s; 
     z-index: 100;
 }
 
@@ -30,7 +30,6 @@ body {
 }
 
 .float-up {
-    /* Animasi float-up hanya digunakan untuk pesan akhir */
     animation: floatUp 5s forwards;
 }
 
@@ -39,7 +38,7 @@ body {
     100% { transform: translate(-50%, -400px); opacity: 0; top: 30%;}
 }
 
-/* --- KOTAK KADO SIMETRIS (Tidak ada perubahan) --- */
+/* --- KOTAK KADO SIMETRIS --- */
 .gift-box {
     position: relative;
     width: 200px;
@@ -52,7 +51,7 @@ body {
     transform: none; 
     z-index: 10;
 }
-/* ... (CSS Kotak Kado lainnya) ... */
+
 .box-bottom { width: 100%; height: 100%; background-color: #cc3333; position: absolute; bottom: 0; border-radius: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.3); }
 .box-top { width: 105%; height: 30px; background-color: #e63946; position: absolute; top: -30px; left: -2.5%; border-radius: 5px; transform-origin: bottom center; transition: transform 0.5s ease-in-out; z-index: 3; box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
 .ribbon-v { width: 25px; height: 100%; background-color: #ffd700; position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; }
@@ -61,22 +60,19 @@ body {
 .ribbon-bow::before { content: ''; position: absolute; width: 40px; height: 40px; background-color: #ffd700; border-radius: 60% 30% 50% 50% / 50% 50% 50% 50%; left: 0; top: 0; transform: rotate(30deg); transform-origin: bottom right; box-shadow: inset -3px 3px 5px rgba(0,0,0,0.15); }
 .ribbon-bow::after { content: ''; position: absolute; width: 40px; height: 40px; background-color: #ffd700; border-radius: 30% 60% 50% 50% / 50% 50% 50% 50%; right: 0; top: 0; transform: rotate(-30deg); transform-origin: bottom left; box-shadow: inset 3px 3px 5px rgba(0,0,0,0.15); }
 .ribbon-bow .knot { position: absolute; width: 15px; height: 15px; background-color: #ffaa00; border-radius: 50%; top: 15px; left: 50%; transform: translateX(-50%); z-index: 5; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
-
 .click-instruction {
     position: absolute; bottom: -40px; width: 100%; text-align: center; 
     color: #555; font-size: 0.9em; opacity: 1; transition: opacity 0.3s;
     left: 50%; 
     transform: translate(-50%, 0);
 }
-
 .gift-box.open { transform: translateY(-20px); }
 .gift-box.open .box-top { transform: rotateX(-90deg) translateY(-30px); }
 .gift-box.open .ribbon-bow, 
 .gift-box.open .ribbon-h,
 .gift-box.open .click-instruction { opacity: 0; transition: opacity 0.3s; }
 
-
-/* --- Desain Kue (Tidak ada perubahan) --- */
+/* --- Desain Kue --- */
 .hidden { display: none !important; }
 
 .cake-container {
@@ -88,6 +84,8 @@ body {
     opacity: 0; 
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     z-index: 1; 
+    /* Penting untuk 3D slice */
+    transform-style: preserve-3d;
 }
 
 .cake-container.visible { opacity: 1; transform: translate(-50%, 0); }
@@ -100,13 +98,69 @@ body {
 .layer-middle { background-color: #f0e68c; }
 .layer-top { background-color: #ffc0cb; height: 20px; border-radius: 5px 5px 0 0;}
 
-/* Lilin */
+/* ILUSI POTONGAN YANG HILANG */
+.cake-container.cut .layer-top::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25%; /* Lebar potongan yang hilang (sesuaikan jika perlu) */
+    height: 100%;
+    background-color: #f7f7f7; /* WAJIB disamakan dengan warna BODY */
+    z-index: 4;
+    /* Membuat bentuk potongan segitiga (sebenarnya menghilangkan bagian kue) */
+    clip-path: polygon(100% 0%, 100% 100%, 75% 100%, 75% 0%); 
+}
+
+/* --- Gaya Potongan Kue Baru --- */
+.cake-slice {
+    position: absolute;
+    width: 50px; /* Lebar potongan */
+    height: 70px; /* Ketinggian potongan (gabungan 3 lapisan) */
+    left: 70%; /* Posisikan di sisi kue */
+    top: 50%;
+    transform: rotateY(0deg) translateZ(0); /* Posisi awal menempel di kue */
+    transform-style: preserve-3d;
+    transition: transform 1s ease-out, opacity 0.5s;
+    z-index: 5;
+    opacity: 0;
+}
+
+.cake-slice.cut {
+    opacity: 1;
+    /* Pindahkan potongan ke luar dan putar */
+    transform: translateX(100px) translateY(-50px) rotateY(-30deg) rotateZ(5deg);
+}
+
+.slice-side {
+    /* Sisi yang terlihat saat dipotong (lapisan vertikal) */
+    width: 10px;
+    height: 70px;
+    background: linear-gradient(to bottom, #ffc0cb 25px, #f0e68c 25px, #f0e68c 55px, #8b4513 55px);
+    position: absolute;
+    /* Posisikan di tengah agar terlihat sebagai sisi potong */
+    transform: rotateY(90deg) translateZ(-5px); 
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.slice-top {
+    /* Bagian atas potongan (icing) */
+    width: 50px;
+    height: 50px; 
+    background-color: #ffc0cb;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Bentuk potongan seperti segitiga */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transform: rotateX(90deg) translateZ(0);
+}
+
+
+/* --- Lilin & Api (Tidak ada perubahan) --- */
 .candle-set { display: flex; justify-content: space-around; width: 150px; position: absolute; top: -20px; left: 25px; z-index: 2; }
-
 .candle { width: 8px; height: 30px; background-color: #ffffff; border: 1px solid #000000; border-radius: 2px; position: relative; }
-
 .wick { width: 2px; height: 5px; background-color: #222; position: absolute; top: -5px; left: 3px; }
-
 .flame {
     width: 6px; height: 15px; background: linear-gradient(to top, orange, yellow);
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
@@ -114,20 +168,13 @@ body {
     cursor: pointer; box-shadow: 0 0 5px 2px rgba(255, 165, 0, 0.7);
     animation: flicker 0.2s infinite alternate;
 }
-
 .flame.out { opacity: 0; box-shadow: none; animation: none; }
-
 @keyframes flicker { from { transform: scale(1, 1); } to { transform: scale(1.05, 0.95); } }
 
-/* --- Animasi Konfeti (Tidak ada perubahan) --- */
+/* --- Animasi Konfeti --- */
 #confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; display: none; overflow: hidden; }
-
 .confetto { position: absolute; width: 10px; height: 10px; background-color: transparent; border-radius: 50%; opacity: 0; } 
-
 @keyframes fall {
     from { opacity: 0.8; }
-    to {
-        transform: translate3d(0, 110vh, 0) rotate(720deg); 
-        opacity: 0.5;
-    }
+    to { transform: translate3d(0, 110vh, 0) rotate(720deg); opacity: 0.5; }
 }
