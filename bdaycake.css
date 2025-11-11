@@ -47,8 +47,7 @@ body {
     perspective: 1000px; 
     transform-style: preserve-3d;
     transition: transform 0.5s ease-in-out;
-    /* Penyesuaian agar kotak berada di tengah layar tanpa margin-top dari body */
-    margin-top: -50px; /* Sesuaikan jika perlu agar seimbang */
+    margin-top: -50px; 
 }
 
 .box-bottom {
@@ -72,7 +71,7 @@ body {
     z-index: 3;
 }
 
-/* Pita */
+/* Pita Vertikal dan Horizontal */
 .ribbon-v { 
     width: 25px; 
     height: 100%; 
@@ -92,55 +91,62 @@ body {
     z-index: 2; 
 }
 
-/* --- Pita Atas (Bow) yang Baru --- */
+/* --- PERBAIKAN PITA ATAS (BOW) --- */
 .ribbon-bow {
     position: absolute;
-    width: 60px;
-    height: 30px; /* Bentuk dasar pita */
-    top: -65px; /* Posisikan di atas tutup kotak */
+    width: 60px; /* Lebar total pita */
+    height: 40px; /* Tinggi total pita (untuk menampung loop) */
+    /* Posisikan di tengah-tengah tutup kotak */
+    top: -25px; /* Sesuaikan dengan 'top' dari .box-top */
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-20px); /* Geser ke atas agar terlihat di atas tutup */
     z-index: 4;
-    overflow: hidden; /* Penting untuk menyembunyikan bagian yang tidak perlu */
+    overflow: visible; 
     transition: opacity 0.3s ease-in-out;
 }
 
+/* Loop Kiri Pita */
+.ribbon-bow::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 40px; 
+    background-color: #ffd700; /* Emas */
+    border-radius: 40% 60% 50% 50% / 50% 50% 50% 50%; 
+    left: 0;
+    top: 0;
+    transform: rotate(25deg); 
+    transform-origin: bottom right;
+    box-shadow: -2px 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Loop Kanan Pita */
+.ribbon-bow::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 40px; 
+    background-color: #ffd700; /* Emas */
+    border-radius: 60% 40% 50% 50% / 50% 50% 50% 50%; 
+    right: 0;
+    top: 0;
+    transform: rotate(-25deg); 
+    transform-origin: bottom left;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+/* --- Ekor pita (jika ingin ditambahkan, sebagai bagian dari .ribbon-bow) --- */
+.ribbon-bow::before {
+    /* ... kode loop kiri ... */
+}
+.ribbon-bow::after {
+    /* ... kode loop kanan ... */
+}
+/* Tambahkan bagian ekor pita */
 .ribbon-bow::before,
 .ribbon-bow::after {
-    content: '';
-    position: absolute;
-    width: 30px; /* Lebar masing-masing loop */
-    height: 30px;
-    background-color: #ffd700; /* Emas */
-    border-radius: 50%; /* Membuat bentuk lingkaran */
-    top: 0;
+    /* ... kode loop ... */
 }
-
-.ribbon-bow::before {
-    left: 0;
-    transform: rotate(20deg); /* Sedikit rotasi untuk efek pita */
-    transform-origin: bottom right;
-}
-
-.ribbon-bow::after {
-    right: 0;
-    transform: rotate(-20deg); /* Rotasi berlawanan */
-    transform-origin: bottom left;
-}
-
-/* Tambahan untuk ekor pita (opsional, untuk detail lebih lanjut) */
-.ribbon-bow-tails::before,
-.ribbon-bow-tails::after {
-    content: '';
-    position: absolute;
-    width: 15px;
-    height: 25px;
-    background-color: #ffd700;
-    top: 25px; /* Di bawah bagian loop */
-    border-radius: 0 0 10px 10px; /* Bentuk ekor */
-}
-.ribbon-bow-tails::before { left: 10px; transform: rotate(5deg); }
-.ribbon-bow-tails::after { right: 10px; transform: rotate(-5deg); }
 
 
 .click-instruction {
@@ -164,7 +170,6 @@ body {
 
 /* --- Desain Kue (CSS-Only) --- */
 
-/* Aturan utama untuk menyembunyikan/menampilkan */
 .hidden {
     display: none !important; 
 }
@@ -172,10 +177,9 @@ body {
 .cake-container {
     position: absolute; 
     width: 200px;
-    /* Sesuaikan agar kue muncul di posisi yang benar setelah kotak terbuka */
     top: 50%; 
     left: 50%;
-    transform: translate(-50%, 50px); /* Awalnya sedikit turun */
+    transform: translate(-50%, 50px); 
     opacity: 0; 
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     z-index: 1; 
@@ -183,7 +187,7 @@ body {
 
 .cake-container.visible {
     opacity: 1;
-    transform: translate(-50%, 0); /* Bergeser ke atas ke posisi akhir */
+    transform: translate(-50%, 0); 
 }
 
 .plate {
