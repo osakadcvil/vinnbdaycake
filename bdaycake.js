@@ -11,26 +11,30 @@ const congratsMessage = document.getElementById('congrats-message');
 const confettiContainer = document.getElementById('confetti-container');
 
 
-// FUNGSI UTAMA UNTUK MEMBUKA KOTAK (sekarang dipanggil dari div.gift-box)
+// FUNGSI UTAMA UNTUK MEMBUKA KOTAK (Dipanggil oleh onclick pada giftBox)
 function openGift() {
     if (giftBoxOpened) return; 
 
     giftBox.classList.add('open'); 
     giftBoxOpened = true;
 
+    // Sembunyikan instruksi klik secara eksplisit
     const clickInstruction = document.querySelector('.click-instruction');
     if (clickInstruction) {
-        clickInstruction.style.opacity = 0;
+        clickInstruction.style.opacity = 0; 
     }
 
+    // Tunda untuk sinkron dengan animasi tutup kotak (0.5s di CSS)
     setTimeout(() => {
         giftBox.style.display = 'none'; 
         
         cakeContainer.classList.remove('hidden'); 
         
+        // Pemicu animasi kue (opacity dan transform)
         setTimeout(() => {
             cakeContainer.classList.add('visible'); 
 
+            // Tampilkan pesan awal (instruksi meniup lilin)
             congratsMessage.textContent = `Tiup kelima lilinnya! Sisa: ${candlesLit} 🌬️`;
             messageContainer.style.opacity = 1;
             messageContainer.style.pointerEvents = 'auto'; 
@@ -40,12 +44,15 @@ function openGift() {
 }
 
 
-// FUNGSI UNTUK MEMADAMKAN LILIN
+// FUNGSI UNTUK MEMADAMKAN LILIN (Dipanggil oleh onclick pada flame)
+// Menerima elemen CANDLE (induk dari FLAME)
 function blowOut(candleElement) {
+    // Cek apakah lilin sudah padam
     if (candleElement.getAttribute('data-lit') === 'false') {
         return;
     }
     
+    // Pastikan kotak sudah terbuka
     if (!giftBoxOpened) {
         congratsMessage.textContent = "Buka kotak kadonya dulu ya! 🎁";
         messageContainer.style.opacity = 1;
@@ -59,6 +66,7 @@ function blowOut(candleElement) {
     candleElement.setAttribute('data-lit', 'false'); 
     candlesLit--;
 
+    // Perbarui pesan status lilin
     congratsMessage.textContent = `Sisa lilin: ${candlesLit} 🌬️`;
 
     if (candlesLit === 0) {
@@ -70,22 +78,22 @@ function blowOut(candleElement) {
 function triggerCelebration() {
     
     setTimeout(() => {
+        // Pesan Akhir
         congratsMessage.textContent = "SELAMAT ULANG TAHUN ADEKKK! 🎂🥳🎉";
 
+        // Animasi pesan ke atas
         messageContainer.classList.remove('float-up'); 
         messageContainer.classList.add('float-up');
         messageContainer.style.opacity = 1;
         messageContainer.style.pointerEvents = 'none'; 
 
+        // Mulai Konfeti
         confettiContainer.style.display = 'block';
         createConfetti(100);
 
+        // Hentikan konfeti setelah 5 detik
         setTimeout(() => {
             confettiContainer.style.display = 'none';
-            const styleSheet = document.getElementById('confetti-keyframes');
-            if (styleSheet) {
-                 styleSheet.remove();
-            }
         }, 5000);
         
     }, 500); 
@@ -93,24 +101,7 @@ function triggerCelebration() {
 
 // FUNGSI UNTUK MEMBUAT KONFETI
 function createConfetti(count) {
-    let styleSheet = document.getElementById('confetti-keyframes');
-    if (styleSheet) {
-        styleSheet.remove();
-    }
-
-    styleSheet = document.createElement("style");
-    styleSheet.id = 'confetti-keyframes';
-    styleSheet.innerHTML = `
-        @keyframes fall {
-            from { opacity: 0.8; }
-            to {
-                transform: translate3d(0, 100vh, 0) rotate(720deg);
-                opacity: 0.5;
-            }
-        }
-    `;
-    document.head.appendChild(styleSheet);
-    
+    // Hapus konfeti lama
     confettiContainer.innerHTML = ''; 
 
     for (let i = 0; i < count; i++) {
@@ -120,14 +111,15 @@ function createConfetti(count) {
         const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
         confetto.style.backgroundColor = color;
         
+        // Posisi awal acak
         confetto.style.left = Math.random() * 100 + 'vw';
-        confetto.style.top = Math.random() * -50 + 'px'; 
+        confetto.style.top = Math.random() * -50 + 'px'; // Mulai dari atas, tersembunyi
         
         const duration = Math.random() * 3 + 2; 
         const delay = Math.random() * 0.5; 
         
-        confetto.style.animation = `fall ${duration}s ${delay}s forwards`;
-        confetto.style.animationTimingFunction = 'ease-in'; 
+        // Gunakan keyframe 'fall' dari CSS
+        confetto.style.animation = `fall ${duration}s linear ${delay}s forwards`;
         
         confettiContainer.appendChild(confetto);
     }
